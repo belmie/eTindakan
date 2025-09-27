@@ -22,7 +22,7 @@ Sistem pengurusan surat masuk untuk Majlis Agama Islam Negeri Sembilan (MAINS).
 
 - **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS, shadcn/ui
 - **Backend**: Express.js, Node.js
-- **Database**: PostgreSQL
+- **Database**: Microsoft SQL Server
 - **Authentication**: JWT + bcrypt
 - **File Upload**: Multer
 
@@ -30,7 +30,7 @@ Sistem pengurusan surat masuk untuk Majlis Agama Islam Negeri Sembilan (MAINS).
 
 ### Prasyarat
 - Node.js 18+
-- PostgreSQL 12+
+- Microsoft SQL Server 2019+ atau SQL Server Express
 - Git
 
 ### Langkah Pemasangan
@@ -49,12 +49,16 @@ bun install
 ```
 
 3. **Setup database**
-```bash
-# Cipta database
-createdb stsm_mains
+```sql
+-- Cipta database baru
+CREATE DATABASE stsm_mains;
+GO
 
-# Import schema
-psql -d stsm_mains -f lib/db/schema.sql
+-- Gunakan database
+USE stsm_mains;
+GO
+
+-- Import schema dari lib/db/schema.sql
 ```
 
 4. **Setup environment variables**
@@ -64,12 +68,14 @@ cp .env.example .env.local
 
 Edit `.env.local`:
 ```
-PGUSER=postgres
-PGPASSWORD=your_password
-PGHOST=localhost
-PGPORT=5432
-PGDATABASE=stsm_mains
-JWT_SECRET=your_jwt_secret
+DB_USER=sa
+DB_PASSWORD=YourPassword123
+DB_SERVER=localhost
+DB_DATABASE=stsm_mains
+DB_PORT=1433
+DB_ENCRYPT=false
+DB_TRUST_CERT=true
+JWT_SECRET=your_jwt_secret_key_here
 ```
 
 5. **Jalankan aplikasi**
@@ -79,6 +85,23 @@ npm run dev
 
 # Backend (port 3001)
 node server/index.js
+```
+
+## Konfigurasi SQL Server
+
+### SQL Server Express (Percuma)
+1. Download SQL Server Express dari Microsoft
+2. Install dengan Mixed Mode Authentication
+3. Set password untuk user 'sa'
+4. Enable TCP/IP protocol
+5. Restart SQL Server service
+
+### Connection String
+```
+Server: localhost,1433
+Database: stsm_mains
+User: sa
+Password: [your_password]
 ```
 
 ## Penggunaan
@@ -115,6 +138,43 @@ node server/index.js
 └── public/              # Static assets
 ```
 
+## Database Schema
+
+### Jadual Utama
+- **users** - Pengguna sistem
+- **surat_masuk** - Surat masuk
+- **lampiran** - Fail lampiran
+- **tindakan** - Log tindakan
+- **maklum_balas** - Respons/maklum balas
+- **notifikasi** - Notifikasi sistem
+
+## Deployment
+
+### Windows Server + IIS
+1. Install Node.js di server
+2. Install SQL Server
+3. Configure IIS dengan iisnode
+4. Set environment variables
+5. Deploy aplikasi
+
+### Cloud Deployment
+- **Azure**: App Service + SQL Database
+- **AWS**: EC2 + RDS SQL Server
+- **Google Cloud**: Compute Engine + Cloud SQL
+
+## Troubleshooting
+
+### Connection Issues
+```bash
+# Test SQL Server connection
+sqlcmd -S localhost -U sa -P YourPassword
+```
+
+### Common Errors
+- **Login failed**: Check SQL Server authentication mode
+- **Network error**: Enable TCP/IP protocol
+- **Permission denied**: Check user permissions
+
 ## Sumbangan
 
 1. Fork repositori ini
@@ -132,3 +192,4 @@ Projek ini adalah hak milik Majlis Agama Islam Negeri Sembilan.
 Untuk sokongan teknikal, hubungi:
 - Email: support@mains.gov.my
 - Tel: +60-6-xxx-xxxx
+- GitHub: https://github.com/belmie/eTindakan

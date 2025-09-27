@@ -5,11 +5,50 @@ const path = require('path');
 const fs = require('fs');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const pool = require('../lib/db/connection.ts').default;
+const sql = require('mssql');
 
 const app = express();
 const PORT = process.env.PORT || 3001;
 const JWT_SECRET = process.env.JWT_SECRET || 'stsm-secret-key';
+
+// MSSQL Configuration
+const dbConfig = {
+  user: process.env.DB_USER || 'sa',
+  password: process.env.DB_PASSWORD || 'YourPassword123',
+  server: process.env.DB_SERVER || 'localhost',
+  database: process.env.DB_DATABASE || 'stsm_mains',
+  port: parseInt(process.env.DB_PORT || '1433'),
+  options: {
+    encrypt: process.env.DB_ENCRYPT === 'true',
+    trustServerCertificate: process.env.DB_TRUST_CERT !== 'false',
+  },
+  pool: {
+    max: 10,
+    min: 0,
+    idleTimeoutMillis: 30000
+  }
+};
+
+let pool;
+
+// Initialize database connection
+const initDB = async () => {
+  try {
+    pool = await sql.connect(dbConfig);
+    console.log('Connected to MSSQL database');
+  } catch (err) {
+    console.error('Database connection failed:', err);
+    // For development, create a mock pool to prevent crashes
+    pool = {
+      request: () => ({
+        input: () => ({ query: () => ({ recordset: [] }) }),
+        query: () => ({ recordset: [] })
+      })
+    };
+  }
+};
+
+initDB();
 
 // Middleware
 app.use(cors());
@@ -73,16 +112,18 @@ app.post('/api/login', async (req, res) => {
   try {
     const { username, password } = req.body;
     
-    const result = await pool.query(
-      'SELECT * FROM users WHERE username = $1 AND is_active = true',
-      [username]
-    );
+    const request = pool.request();
+    request.input('username', sql.NVarChar, username);
     
-    if (result.rows.length === 0) {
+    const result = await request.query(`
+      SELECT * FROM users WHERE username = @username AND is_active = 1
+    `);
+    
+    if (result.recordset.length === 0) {
       return res.status(401).json({ error: 'Nama pengguna atau kata laluan tidak betul' });
     }
     
-    const user = result.rows[0];
+    const user = result.recordset[0];
     const validPassword = await bcrypt.compare(password, user.password_hash);
     
     if (!validPassword) {
@@ -117,6 +158,7 @@ app.get('/api/surat', authenticateToken, async (req, res) => {
     const { status, assigned_to, page = 1, limit = 10 } = req.query;
     const offset = (page - 1) * limit;
     
+    const request = pool.request();
     let query = `
       SELECT s.*, u1.full_name as created_by_name, u2.full_name as assigned_to_name
       FROM surat_masuk s
@@ -124,61 +166,53 @@ app.get('/api/surat', authenticateToken, async (req, res) => {
       LEFT JOIN users u2 ON s.assigned_to = u2.id
       WHERE 1=1
     `;
-    const params = [];
-    let paramCount = 0;
     
     if (status) {
-      paramCount++;
-      query += ` AND s.status = $${paramCount}`;
-      params.push(status);
+      query += ` AND s.status = @status`;
+      request.input('status', sql.NVarChar, status);
     }
     
     if (assigned_to) {
-      paramCount++;
-      query += ` AND s.assigned_to = $${paramCount}`;
-      params.push(assigned_to);
+      query += ` AND s.assigned_to = @assigned_to`;
+      request.input('assigned_to', sql.Int, assigned_to);
     }
     
     // Role-based filtering
     if (req.user.role === 'pegawai_pelaksana') {
-      paramCount++;
-      query += ` AND s.assigned_to = $${paramCount}`;
-      params.push(req.user.id);
+      query += ` AND s.assigned_to = @user_id`;
+      request.input('user_id', sql.Int, req.user.id);
     }
     
-    query += ` ORDER BY s.created_at DESC LIMIT $${paramCount + 1} OFFSET $${paramCount + 2}`;
-    params.push(limit, offset);
+    query += ` ORDER BY s.created_at DESC OFFSET @offset ROWS FETCH NEXT @limit ROWS ONLY`;
+    request.input('offset', sql.Int, offset);
+    request.input('limit', sql.Int, parseInt(limit));
     
-    const result = await pool.query(query, params);
+    const result = await request.query(query);
     
     // Get total count
-    let countQuery = 'SELECT COUNT(*) FROM surat_masuk s WHERE 1=1';
-    const countParams = [];
-    let countParamCount = 0;
+    const countRequest = pool.request();
+    let countQuery = 'SELECT COUNT(*) as total FROM surat_masuk s WHERE 1=1';
     
     if (status) {
-      countParamCount++;
-      countQuery += ` AND s.status = $${countParamCount}`;
-      countParams.push(status);
+      countQuery += ` AND s.status = @status`;
+      countRequest.input('status', sql.NVarChar, status);
     }
     
     if (assigned_to) {
-      countParamCount++;
-      countQuery += ` AND s.assigned_to = $${countParamCount}`;
-      countParams.push(assigned_to);
+      countQuery += ` AND s.assigned_to = @assigned_to`;
+      countRequest.input('assigned_to', sql.Int, assigned_to);
     }
     
     if (req.user.role === 'pegawai_pelaksana') {
-      countParamCount++;
-      countQuery += ` AND s.assigned_to = $${countParamCount}`;
-      countParams.push(req.user.id);
+      countQuery += ` AND s.assigned_to = @user_id`;
+      countRequest.input('user_id', sql.Int, req.user.id);
     }
     
-    const countResult = await pool.query(countQuery, countParams);
-    const total = parseInt(countResult.rows[0].count);
+    const countResult = await countRequest.query(countQuery);
+    const total = countResult.recordset[0].total;
     
     res.json({
-      data: result.rows,
+      data: result.recordset,
       pagination: {
         page: parseInt(page),
         limit: parseInt(limit),
@@ -207,44 +241,62 @@ app.post('/api/surat', authenticateToken, upload.array('lampiran'), async (req, 
       keutamaan
     } = req.body;
     
-    // Insert letter
-    const result = await pool.query(`
+    const request = pool.request();
+    request.input('no_rujukan', sql.NVarChar, no_rujukan);
+    request.input('tarikh_terima', sql.Date, tarikh_terima);
+    request.input('tarikh_surat', sql.Date, tarikh_surat);
+    request.input('pengirim', sql.NVarChar, pengirim);
+    request.input('alamat_pengirim', sql.NText, alamat_pengirim);
+    request.input('subjek', sql.NVarChar, subjek);
+    request.input('ringkasan', sql.NText, ringkasan);
+    request.input('kategori', sql.NVarChar, kategori);
+    request.input('keutamaan', sql.NVarChar, keutamaan);
+    request.input('created_by', sql.Int, req.user.id);
+    
+    const result = await request.query(`
       INSERT INTO surat_masuk (
         no_rujukan, tarikh_terima, tarikh_surat, pengirim, alamat_pengirim,
         subjek, ringkasan, kategori, keutamaan, created_by
-      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
-      RETURNING *
-    `, [
-      no_rujukan, tarikh_terima, tarikh_surat, pengirim, alamat_pengirim,
-      subjek, ringkasan, kategori, keutamaan, req.user.id
-    ]);
+      ) 
+      OUTPUT INSERTED.*
+      VALUES (@no_rujukan, @tarikh_terima, @tarikh_surat, @pengirim, @alamat_pengirim,
+              @subjek, @ringkasan, @kategori, @keutamaan, @created_by)
+    `);
     
-    const suratId = result.rows[0].id;
+    const suratId = result.recordset[0].id;
     
     // Handle file uploads
     if (req.files && req.files.length > 0) {
       for (const file of req.files) {
-        await pool.query(`
+        const fileRequest = pool.request();
+        fileRequest.input('surat_id', sql.Int, suratId);
+        fileRequest.input('nama_fail', sql.NVarChar, file.originalname);
+        fileRequest.input('url_fail', sql.NVarChar, `/uploads/${file.filename}`);
+        fileRequest.input('saiz_fail', sql.BigInt, file.size);
+        fileRequest.input('jenis_fail', sql.NVarChar, file.mimetype);
+        fileRequest.input('uploaded_by', sql.Int, req.user.id);
+        
+        await fileRequest.query(`
           INSERT INTO lampiran (surat_id, nama_fail, url_fail, saiz_fail, jenis_fail, uploaded_by)
-          VALUES ($1, $2, $3, $4, $5, $6)
-        `, [
-          suratId,
-          file.originalname,
-          `/uploads/${file.filename}`,
-          file.size,
-          file.mimetype,
-          req.user.id
-        ]);
+          VALUES (@surat_id, @nama_fail, @url_fail, @saiz_fail, @jenis_fail, @uploaded_by)
+        `);
       }
     }
     
     // Log action
-    await pool.query(`
-      INSERT INTO tindakan (surat_id, user_id, jenis_tindakan, catatan, status_baru)
-      VALUES ($1, $2, $3, $4, $5)
-    `, [suratId, req.user.id, 'daftar_surat', 'Surat baru didaftarkan', 'belum_mula']);
+    const actionRequest = pool.request();
+    actionRequest.input('surat_id', sql.Int, suratId);
+    actionRequest.input('user_id', sql.Int, req.user.id);
+    actionRequest.input('jenis_tindakan', sql.NVarChar, 'daftar_surat');
+    actionRequest.input('catatan', sql.NText, 'Surat baru didaftarkan');
+    actionRequest.input('status_baru', sql.NVarChar, 'belum_mula');
     
-    res.status(201).json(result.rows[0]);
+    await actionRequest.query(`
+      INSERT INTO tindakan (surat_id, user_id, jenis_tindakan, catatan, status_baru)
+      VALUES (@surat_id, @user_id, @jenis_tindakan, @catatan, @status_baru)
+    `);
+    
+    res.status(201).json(result.recordset[0]);
   } catch (error) {
     console.error('Create letter error:', error);
     res.status(500).json({ error: 'Ralat sistem' });
@@ -257,26 +309,46 @@ app.put('/api/surat/:id/assign', authenticateToken, async (req, res) => {
     const { id } = req.params;
     const { assigned_to, tarikh_akhir_tindakan } = req.body;
     
-    const result = await pool.query(`
+    const request = pool.request();
+    request.input('assigned_to', sql.Int, assigned_to);
+    request.input('tarikh_akhir_tindakan', sql.Date, tarikh_akhir_tindakan);
+    request.input('id', sql.Int, id);
+    
+    const result = await request.query(`
       UPDATE surat_masuk 
-      SET assigned_to = $1, tarikh_akhir_tindakan = $2, status = 'dalam_proses', updated_at = CURRENT_TIMESTAMP
-      WHERE id = $3
-      RETURNING *
-    `, [assigned_to, tarikh_akhir_tindakan, id]);
+      SET assigned_to = @assigned_to, tarikh_akhir_tindakan = @tarikh_akhir_tindakan, 
+          status = 'dalam_proses', updated_at = GETDATE()
+      OUTPUT INSERTED.*
+      WHERE id = @id
+    `);
     
     // Log action
-    await pool.query(`
+    const actionRequest = pool.request();
+    actionRequest.input('surat_id', sql.Int, id);
+    actionRequest.input('user_id', sql.Int, req.user.id);
+    actionRequest.input('jenis_tindakan', sql.NVarChar, 'agih_tindakan');
+    actionRequest.input('catatan', sql.NText, 'Surat diagihkan untuk tindakan');
+    actionRequest.input('status_lama', sql.NVarChar, 'belum_mula');
+    actionRequest.input('status_baru', sql.NVarChar, 'dalam_proses');
+    
+    await actionRequest.query(`
       INSERT INTO tindakan (surat_id, user_id, jenis_tindakan, catatan, status_lama, status_baru)
-      VALUES ($1, $2, $3, $4, $5, $6)
-    `, [id, req.user.id, 'agih_tindakan', 'Surat diagihkan untuk tindakan', 'belum_mula', 'dalam_proses']);
+      VALUES (@surat_id, @user_id, @jenis_tindakan, @catatan, @status_lama, @status_baru)
+    `);
     
     // Create notification
-    await pool.query(`
-      INSERT INTO notifikasi (user_id, surat_id, jenis, mesej)
-      VALUES ($1, $2, $3, $4)
-    `, [assigned_to, id, 'tugasan_baru', 'Anda telah menerima tugasan surat baru']);
+    const notifRequest = pool.request();
+    notifRequest.input('user_id', sql.Int, assigned_to);
+    notifRequest.input('surat_id', sql.Int, id);
+    notifRequest.input('jenis', sql.NVarChar, 'tugasan_baru');
+    notifRequest.input('mesej', sql.NText, 'Anda telah menerima tugasan surat baru');
     
-    res.json(result.rows[0]);
+    await notifRequest.query(`
+      INSERT INTO notifikasi (user_id, surat_id, jenis, mesej)
+      VALUES (@user_id, @surat_id, @jenis, @mesej)
+    `);
+    
+    res.json(result.recordset[0]);
   } catch (error) {
     console.error('Assign letter error:', error);
     res.status(500).json({ error: 'Ralat sistem' });
@@ -289,23 +361,38 @@ app.put('/api/surat/:id/status', authenticateToken, async (req, res) => {
     const { id } = req.params;
     const { status, catatan } = req.body;
     
-    const currentResult = await pool.query('SELECT status FROM surat_masuk WHERE id = $1', [id]);
-    const oldStatus = currentResult.rows[0]?.status;
+    // Get current status
+    const currentRequest = pool.request();
+    currentRequest.input('id', sql.Int, id);
+    const currentResult = await currentRequest.query('SELECT status FROM surat_masuk WHERE id = @id');
+    const oldStatus = currentResult.recordset[0]?.status;
     
-    const result = await pool.query(`
+    const request = pool.request();
+    request.input('status', sql.NVarChar, status);
+    request.input('id', sql.Int, id);
+    
+    const result = await request.query(`
       UPDATE surat_masuk 
-      SET status = $1, updated_at = CURRENT_TIMESTAMP
-      WHERE id = $2
-      RETURNING *
-    `, [status, id]);
+      SET status = @status, updated_at = GETDATE()
+      OUTPUT INSERTED.*
+      WHERE id = @id
+    `);
     
     // Log action
-    await pool.query(`
-      INSERT INTO tindakan (surat_id, user_id, jenis_tindakan, catatan, status_lama, status_baru)
-      VALUES ($1, $2, $3, $4, $5, $6)
-    `, [id, req.user.id, 'kemaskini_status', catatan || 'Status dikemaskini', oldStatus, status]);
+    const actionRequest = pool.request();
+    actionRequest.input('surat_id', sql.Int, id);
+    actionRequest.input('user_id', sql.Int, req.user.id);
+    actionRequest.input('jenis_tindakan', sql.NVarChar, 'kemaskini_status');
+    actionRequest.input('catatan', sql.NText, catatan || 'Status dikemaskini');
+    actionRequest.input('status_lama', sql.NVarChar, oldStatus);
+    actionRequest.input('status_baru', sql.NVarChar, status);
     
-    res.json(result.rows[0]);
+    await actionRequest.query(`
+      INSERT INTO tindakan (surat_id, user_id, jenis_tindakan, catatan, status_lama, status_baru)
+      VALUES (@surat_id, @user_id, @jenis_tindakan, @catatan, @status_lama, @status_baru)
+    `);
+    
+    res.json(result.recordset[0]);
   } catch (error) {
     console.error('Update status error:', error);
     res.status(500).json({ error: 'Ralat sistem' });
@@ -318,27 +405,45 @@ app.post('/api/surat/:id/maklum-balas', authenticateToken, async (req, res) => {
     const { id } = req.params;
     const { kepada, subjek, kandungan, cara_hantar, tarikh_hantar } = req.body;
     
-    // Insert feedback
-    const result = await pool.query(`
+    const request = pool.request();
+    request.input('surat_id', sql.Int, id);
+    request.input('kepada', sql.NVarChar, kepada);
+    request.input('subjek', sql.NVarChar, subjek);
+    request.input('kandungan', sql.NText, kandungan);
+    request.input('cara_hantar', sql.NVarChar, cara_hantar);
+    request.input('tarikh_hantar', sql.Date, tarikh_hantar);
+    request.input('created_by', sql.Int, req.user.id);
+    
+    const result = await request.query(`
       INSERT INTO maklum_balas (surat_id, kepada, subjek, kandungan, cara_hantar, tarikh_hantar, created_by)
-      VALUES ($1, $2, $3, $4, $5, $6, $7)
-      RETURNING *
-    `, [id, kepada, subjek, kandungan, cara_hantar, tarikh_hantar, req.user.id]);
+      OUTPUT INSERTED.*
+      VALUES (@surat_id, @kepada, @subjek, @kandungan, @cara_hantar, @tarikh_hantar, @created_by)
+    `);
     
     // Update letter status
-    await pool.query(`
+    const updateRequest = pool.request();
+    updateRequest.input('id', sql.Int, id);
+    await updateRequest.query(`
       UPDATE surat_masuk 
-      SET status = 'maklum_balas_dihantar', updated_at = CURRENT_TIMESTAMP
-      WHERE id = $1
-    `, [id]);
+      SET status = 'maklum_balas_dihantar', updated_at = GETDATE()
+      WHERE id = @id
+    `);
     
     // Log action
-    await pool.query(`
-      INSERT INTO tindakan (surat_id, user_id, jenis_tindakan, catatan, status_lama, status_baru)
-      VALUES ($1, $2, $3, $4, $5, $6)
-    `, [id, req.user.id, 'hantar_maklum_balas', 'Maklum balas telah dihantar', 'selesai', 'maklum_balas_dihantar']);
+    const actionRequest = pool.request();
+    actionRequest.input('surat_id', sql.Int, id);
+    actionRequest.input('user_id', sql.Int, req.user.id);
+    actionRequest.input('jenis_tindakan', sql.NVarChar, 'hantar_maklum_balas');
+    actionRequest.input('catatan', sql.NText, 'Maklum balas telah dihantar');
+    actionRequest.input('status_lama', sql.NVarChar, 'selesai');
+    actionRequest.input('status_baru', sql.NVarChar, 'maklum_balas_dihantar');
     
-    res.status(201).json(result.rows[0]);
+    await actionRequest.query(`
+      INSERT INTO tindakan (surat_id, user_id, jenis_tindakan, catatan, status_lama, status_baru)
+      VALUES (@surat_id, @user_id, @jenis_tindakan, @catatan, @status_lama, @status_baru)
+    `);
+    
+    res.status(201).json(result.recordset[0]);
   } catch (error) {
     console.error('Send feedback error:', error);
     res.status(500).json({ error: 'Ralat sistem' });
@@ -348,14 +453,15 @@ app.post('/api/surat/:id/maklum-balas', authenticateToken, async (req, res) => {
 // Get users for assignment
 app.get('/api/users', authenticateToken, async (req, res) => {
   try {
-    const result = await pool.query(`
+    const request = pool.request();
+    const result = await request.query(`
       SELECT id, username, full_name, role, bahagian
       FROM users 
-      WHERE is_active = true AND role IN ('pegawai_pelaksana', 'ketua_unit')
+      WHERE is_active = 1 AND role IN ('pegawai_pelaksana', 'ketua_unit')
       ORDER BY full_name
     `);
     
-    res.json(result.rows);
+    res.json(result.recordset);
   } catch (error) {
     console.error('Get users error:', error);
     res.status(500).json({ error: 'Ralat sistem' });
@@ -365,16 +471,18 @@ app.get('/api/users', authenticateToken, async (req, res) => {
 // Get notifications
 app.get('/api/notifications', authenticateToken, async (req, res) => {
   try {
-    const result = await pool.query(`
-      SELECT n.*, s.no_rujukan, s.subjek
+    const request = pool.request();
+    request.input('user_id', sql.Int, req.user.id);
+    
+    const result = await request.query(`
+      SELECT TOP 20 n.*, s.no_rujukan, s.subjek
       FROM notifikasi n
       LEFT JOIN surat_masuk s ON n.surat_id = s.id
-      WHERE n.user_id = $1
+      WHERE n.user_id = @user_id
       ORDER BY n.created_at DESC
-      LIMIT 20
-    `, [req.user.id]);
+    `);
     
-    res.json(result.rows);
+    res.json(result.recordset);
   } catch (error) {
     console.error('Get notifications error:', error);
     res.status(500).json({ error: 'Ralat sistem' });
@@ -386,11 +494,15 @@ app.put('/api/notifications/:id/read', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     
-    await pool.query(`
+    const request = pool.request();
+    request.input('id', sql.Int, id);
+    request.input('user_id', sql.Int, req.user.id);
+    
+    await request.query(`
       UPDATE notifikasi 
-      SET is_read = true 
-      WHERE id = $1 AND user_id = $2
-    `, [id, req.user.id]);
+      SET is_read = 1 
+      WHERE id = @id AND user_id = @user_id
+    `);
     
     res.json({ success: true });
   } catch (error) {
@@ -405,33 +517,37 @@ app.get('/api/dashboard/stats', authenticateToken, async (req, res) => {
     const stats = {};
     
     // Total letters
-    const totalResult = await pool.query('SELECT COUNT(*) FROM surat_masuk');
-    stats.total = parseInt(totalResult.rows[0].count);
+    const totalRequest = pool.request();
+    const totalResult = await totalRequest.query('SELECT COUNT(*) as total FROM surat_masuk');
+    stats.total = totalResult.recordset[0].total;
     
     // By status
-    const statusResult = await pool.query(`
+    const statusRequest = pool.request();
+    const statusResult = await statusRequest.query(`
       SELECT status, COUNT(*) as count
       FROM surat_masuk
       GROUP BY status
     `);
-    stats.byStatus = statusResult.rows.reduce((acc, row) => {
-      acc[row.status] = parseInt(row.count);
+    stats.byStatus = statusResult.recordset.reduce((acc, row) => {
+      acc[row.status] = row.count;
       return acc;
     }, {});
     
     // This month
-    const thisMonthResult = await pool.query(`
-      SELECT COUNT(*) FROM surat_masuk
-      WHERE DATE_TRUNC('month', tarikh_terima) = DATE_TRUNC('month', CURRENT_DATE)
+    const thisMonthRequest = pool.request();
+    const thisMonthResult = await thisMonthRequest.query(`
+      SELECT COUNT(*) as count FROM surat_masuk
+      WHERE YEAR(tarikh_terima) = YEAR(GETDATE()) AND MONTH(tarikh_terima) = MONTH(GETDATE())
     `);
-    stats.thisMonth = parseInt(thisMonthResult.rows[0].count);
+    stats.thisMonth = thisMonthResult.recordset[0].count;
     
     // Overdue
-    const overdueResult = await pool.query(`
-      SELECT COUNT(*) FROM surat_masuk
-      WHERE tarikh_akhir_tindakan < CURRENT_DATE AND status NOT IN ('selesai', 'maklum_balas_dihantar')
+    const overdueRequest = pool.request();
+    const overdueResult = await overdueRequest.query(`
+      SELECT COUNT(*) as count FROM surat_masuk
+      WHERE tarikh_akhir_tindakan < CAST(GETDATE() AS DATE) AND status NOT IN ('selesai', 'maklum_balas_dihantar')
     `);
-    stats.overdue = parseInt(overdueResult.rows[0].count);
+    stats.overdue = overdueResult.recordset[0].count;
     
     res.json(stats);
   } catch (error) {

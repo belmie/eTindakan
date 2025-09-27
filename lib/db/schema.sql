@@ -1,85 +1,85 @@
--- Database Schema for STSM (Sistem Tindakan Surat Masuk)
+-- Database Schema for STSM (Sistem Tindakan Surat Masuk) - Microsoft SQL Server
 
 -- Users table for authentication and role management
 CREATE TABLE users (
-    id SERIAL PRIMARY KEY,
-    username VARCHAR(50) UNIQUE NOT NULL,
-    email VARCHAR(100) UNIQUE NOT NULL,
-    password_hash VARCHAR(255) NOT NULL,
-    full_name VARCHAR(100) NOT NULL,
-    role VARCHAR(20) NOT NULL CHECK (role IN ('kerani', 'ketua_unit', 'pegawai_pelaksana', 'pengurusan')),
-    bahagian VARCHAR(100),
-    is_active BOOLEAN DEFAULT true,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    username NVARCHAR(50) UNIQUE NOT NULL,
+    email NVARCHAR(100) UNIQUE NOT NULL,
+    password_hash NVARCHAR(255) NOT NULL,
+    full_name NVARCHAR(100) NOT NULL,
+    role NVARCHAR(20) NOT NULL CHECK (role IN ('kerani', 'ketua_unit', 'pegawai_pelaksana', 'pengurusan')),
+    bahagian NVARCHAR(100),
+    is_active BIT DEFAULT 1,
+    created_at DATETIME2 DEFAULT GETDATE(),
+    updated_at DATETIME2 DEFAULT GETDATE()
 );
 
 -- Incoming letters table
 CREATE TABLE surat_masuk (
-    id SERIAL PRIMARY KEY,
-    no_rujukan VARCHAR(50) UNIQUE NOT NULL,
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    no_rujukan NVARCHAR(50) UNIQUE NOT NULL,
     tarikh_terima DATE NOT NULL,
     tarikh_surat DATE NOT NULL,
-    pengirim VARCHAR(200) NOT NULL,
-    alamat_pengirim TEXT,
-    subjek VARCHAR(500) NOT NULL,
-    ringkasan TEXT,
-    kategori VARCHAR(100),
-    keutamaan VARCHAR(20) DEFAULT 'biasa' CHECK (keutamaan IN ('rendah', 'biasa', 'tinggi', 'kritikal')),
-    status VARCHAR(30) DEFAULT 'belum_mula' CHECK (status IN ('belum_mula', 'dalam_proses', 'selesai', 'maklum_balas_dihantar')),
+    pengirim NVARCHAR(200) NOT NULL,
+    alamat_pengirim NTEXT,
+    subjek NVARCHAR(500) NOT NULL,
+    ringkasan NTEXT,
+    kategori NVARCHAR(100),
+    keutamaan NVARCHAR(20) DEFAULT 'biasa' CHECK (keutamaan IN ('rendah', 'biasa', 'tinggi', 'kritikal')),
+    status NVARCHAR(30) DEFAULT 'belum_mula' CHECK (status IN ('belum_mula', 'dalam_proses', 'selesai', 'maklum_balas_dihantar')),
     tarikh_akhir_tindakan DATE,
-    created_by INTEGER REFERENCES users(id),
-    assigned_to INTEGER REFERENCES users(id),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_by INT REFERENCES users(id),
+    assigned_to INT REFERENCES users(id),
+    created_at DATETIME2 DEFAULT GETDATE(),
+    updated_at DATETIME2 DEFAULT GETDATE()
 );
 
 -- File attachments table
 CREATE TABLE lampiran (
-    id SERIAL PRIMARY KEY,
-    surat_id INTEGER REFERENCES surat_masuk(id) ON DELETE CASCADE,
-    nama_fail VARCHAR(255) NOT NULL,
-    url_fail VARCHAR(500) NOT NULL,
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    surat_id INT REFERENCES surat_masuk(id) ON DELETE CASCADE,
+    nama_fail NVARCHAR(255) NOT NULL,
+    url_fail NVARCHAR(500) NOT NULL,
     saiz_fail BIGINT,
-    jenis_fail VARCHAR(50),
-    uploaded_by INTEGER REFERENCES users(id),
-    uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    jenis_fail NVARCHAR(50),
+    uploaded_by INT REFERENCES users(id),
+    uploaded_at DATETIME2 DEFAULT GETDATE()
 );
 
 -- Action tracking table
 CREATE TABLE tindakan (
-    id SERIAL PRIMARY KEY,
-    surat_id INTEGER REFERENCES surat_masuk(id) ON DELETE CASCADE,
-    user_id INTEGER REFERENCES users(id),
-    jenis_tindakan VARCHAR(50) NOT NULL,
-    catatan TEXT,
-    status_lama VARCHAR(30),
-    status_baru VARCHAR(30),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    surat_id INT REFERENCES surat_masuk(id) ON DELETE CASCADE,
+    user_id INT REFERENCES users(id),
+    jenis_tindakan NVARCHAR(50) NOT NULL,
+    catatan NTEXT,
+    status_lama NVARCHAR(30),
+    status_baru NVARCHAR(30),
+    created_at DATETIME2 DEFAULT GETDATE()
 );
 
 -- Feedback/Response table
 CREATE TABLE maklum_balas (
-    id SERIAL PRIMARY KEY,
-    surat_id INTEGER REFERENCES surat_masuk(id) ON DELETE CASCADE,
-    kepada VARCHAR(200) NOT NULL,
-    subjek VARCHAR(500) NOT NULL,
-    kandungan TEXT NOT NULL,
-    cara_hantar VARCHAR(50) DEFAULT 'emel' CHECK (cara_hantar IN ('emel', 'pos', 'faks', 'tangan')),
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    surat_id INT REFERENCES surat_masuk(id) ON DELETE CASCADE,
+    kepada NVARCHAR(200) NOT NULL,
+    subjek NVARCHAR(500) NOT NULL,
+    kandungan NTEXT NOT NULL,
+    cara_hantar NVARCHAR(50) DEFAULT 'emel' CHECK (cara_hantar IN ('emel', 'pos', 'faks', 'tangan')),
     tarikh_hantar DATE NOT NULL,
-    created_by INTEGER REFERENCES users(id),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    created_by INT REFERENCES users(id),
+    created_at DATETIME2 DEFAULT GETDATE()
 );
 
 -- Notifications table
 CREATE TABLE notifikasi (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users(id),
-    surat_id INTEGER REFERENCES surat_masuk(id),
-    jenis VARCHAR(50) NOT NULL,
-    mesej TEXT NOT NULL,
-    is_read BOOLEAN DEFAULT false,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id INT IDENTITY(1,1) PRIMARY KEY,
+    user_id INT REFERENCES users(id),
+    surat_id INT REFERENCES surat_masuk(id),
+    jenis NVARCHAR(50) NOT NULL,
+    mesej NTEXT NOT NULL,
+    is_read BIT DEFAULT 0,
+    created_at DATETIME2 DEFAULT GETDATE()
 );
 
 -- Create indexes for better performance
