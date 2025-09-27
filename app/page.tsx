@@ -1,103 +1,174 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useEffect } from "react";
+import { LoginForm } from "@/components/auth/login-form";
+import { Sidebar } from "@/components/dashboard/sidebar";
+import { DashboardStats } from "@/components/dashboard/dashboard-stats";
+import { SuratForm } from "@/components/forms/surat-form";
+import { SuratList } from "@/components/dashboard/surat-list";
 
 export default function Home() {
-  return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const [token, setToken] = useState<string | null>(null);
+  const [user, setUser] = useState<any>(null);
+  const [activeView, setActiveView] = useState("dashboard");
+  const [notifications, setNotifications] = useState(0);
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
+  useEffect(() => {
+    // Check for existing session
+    const savedToken = localStorage.getItem("token");
+    const savedUser = localStorage.getItem("user");
+    
+    if (savedToken && savedUser) {
+      setToken(savedToken);
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      fetchNotifications();
+    }
+  }, [token]);
+
+  const fetchNotifications = async () => {
+    try {
+      const response = await fetch("http://localhost:3001/api/notifications", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        const unreadCount = data.filter((n: any) => !n.is_read).length;
+        setNotifications(unreadCount);
+      }
+    } catch (error) {
+      console.error("Error fetching notifications:", error);
+    }
+  };
+
+  const handleLogin = (newToken: string, newUser: any) => {
+    setToken(newToken);
+    setUser(newUser);
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    setToken(null);
+    setUser(null);
+    setActiveView("dashboard");
+  };
+
+  const renderContent = () => {
+    if (!token || !user) return null;
+
+    switch (activeView) {
+      case "dashboard":
+        return (
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-3xl font-bold">Dashboard</h1>
+              <p className="text-gray-600">Selamat datang, {user.full_name}</p>
+            </div>
+            <DashboardStats token={token} />
+          </div>
+        );
+      
+      case "surat-masuk":
+        return (
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-3xl font-bold">Surat Masuk</h1>
+              <p className="text-gray-600">Senarai semua surat masuk</p>
+            </div>
+            <SuratList token={token} user={user} />
+          </div>
+        );
+      
+      case "daftar-surat":
+        return (
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-3xl font-bold">Daftar Surat Baru</h1>
+              <p className="text-gray-600">Daftarkan surat masuk baru</p>
+            </div>
+            <SuratForm 
+              token={token} 
+              onSuccess={() => {
+                setActiveView("surat-masuk");
+                fetchNotifications();
+              }} 
             />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          </div>
+        );
+      
+      case "pengguna":
+        return (
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-3xl font-bold">Pengurusan Pengguna</h1>
+              <p className="text-gray-600">Urus pengguna sistem</p>
+            </div>
+            <div className="bg-gray-50 p-8 rounded-lg text-center">
+              <p className="text-gray-600">Modul pengurusan pengguna akan dilaksanakan dalam fasa seterusnya.</p>
+            </div>
+          </div>
+        );
+      
+      case "laporan":
+        return (
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-3xl font-bold">Laporan</h1>
+              <p className="text-gray-600">Jana laporan sistem</p>
+            </div>
+            <div className="bg-gray-50 p-8 rounded-lg text-center">
+              <p className="text-gray-600">Modul laporan akan dilaksanakan dalam fasa seterusnya.</p>
+            </div>
+          </div>
+        );
+      
+      case "notifikasi":
+        return (
+          <div className="space-y-6">
+            <div>
+              <h1 className="text-3xl font-bold">Notifikasi</h1>
+              <p className="text-gray-600">Notifikasi sistem</p>
+            </div>
+            <div className="bg-gray-50 p-8 rounded-lg text-center">
+              <p className="text-gray-600">Modul notifikasi akan dilaksanakan dalam fasa seterusnya.</p>
+            </div>
+          </div>
+        );
+      
+      default:
+        return (
+          <div className="space-y-6">
+            <DashboardStats token={token} />
+          </div>
+        );
+    }
+  };
+
+  if (!token || !user) {
+    return <LoginForm onLogin={handleLogin} />;
+  }
+
+  return (
+    <div className="flex h-screen bg-gray-50">
+      <Sidebar
+        user={user}
+        activeView={activeView}
+        onViewChange={setActiveView}
+        onLogout={handleLogout}
+        notifications={notifications}
+      />
+      
+      <main className="flex-1 overflow-auto">
+        <div className="p-6 md:p-8 md:ml-0 ml-0">
+          {renderContent()}
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }
