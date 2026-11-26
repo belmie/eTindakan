@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <title>User Manual - STSM MAINS</title>
+    <style>
+        
+@page {
+    size: A4 portrait;
+    margin: 18mm 14mm 18mm 14mm;
+}
+
+@media print {
+    body {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    .page-break {
+        page-break-before: always;
+    }
+    h2 {
+        page-break-before: auto;
+        page-break-after: avoid;
+    }
+    table, figure, pre {
+        page-break-inside: avoid;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background: #ffffff;
+    line-height: 1.55;
+    font-size: 9.5pt;
+    margin: 0;
+    padding: 0;
+}
+
+.doc-header-banner {
+    border-bottom: 2px solid #0b3d5c;
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.doc-header-banner .agency {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #0b3d5c;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.doc-header-banner .system {
+    font-size: 8.5pt;
+    color: #64748b;
+    font-weight: 500;
+}
+
+h1 {
+    font-size: 18pt;
+    font-weight: 800;
+    color: #0b3d5c;
+    line-height: 1.25;
+    margin-top: 0;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+}
+
+h2 {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #0b3d5c;
+    border-bottom: 1.5px solid #e2e8f0;
+    padding-bottom: 4px;
+    margin-top: 22px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #334155;
+    margin-top: 16px;
+    margin-bottom: 6px;
+}
+
+h4 {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #475569;
+    margin-top: 12px;
+    margin-bottom: 4px;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 8px;
+    text-align: justify;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #cbd5e1;
+    margin: 18px 0;
+}
+
+ul, ol {
+    margin-top: 0;
+    margin-bottom: 8px;
+    padding-left: 22px;
+}
+
+li {
+    margin-bottom: 3px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 16px 0;
+    font-size: 8pt;
+    line-height: 1.4;
+}
+
+th {
+    background-color: #0b3d5c;
+    color: #ffffff;
+    font-weight: 600;
+    text-align: left;
+    padding: 6px 8px;
+    border: 1px solid #0b3d5c;
+}
+
+td {
+    padding: 5px 8px;
+    border: 1px solid #cbd5e1;
+    vertical-align: top;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+code {
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 8.5pt;
+    background-color: #f1f5f9;
+    color: #0f172a;
+    padding: 1px 4px;
+    border-radius: 3px;
+    border: 1px solid #e2e8f0;
+}
+
+pre {
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 8pt;
+    line-height: 1.45;
+    overflow-x: auto;
+    margin: 10px 0 14px 0;
+}
+
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    border: none;
+    font-size: 8pt;
+}
+
+blockquote {
+    margin: 10px 0;
+    padding: 8px 14px;
+    background-color: #f0fdf4;
+    border-left: 4px solid #16a34a;
+    border-radius: 0 4px 4px 0;
+    color: #166534;
+    font-size: 8.5pt;
+}
+
+blockquote.note {
+    background-color: #eff6ff;
+    border-left-color: #2563eb;
+    color: #1e40af;
+}
+
+blockquote.warning {
+    background-color: #fffbeb;
+    border-left-color: #d97706;
+    color: #92400e;
+}
+
+img {
+    max-width: 96%;
+    height: auto;
+    display: block;
+    margin: 14px auto 4px auto;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+    page-break-inside: avoid;
+}
+
+p em {
+    color: #64748b;
+    font-size: 8pt;
+}
+
+.checkbox {
+    font-family: monospace;
+    font-weight: bold;
+    color: #475569;
+}
+
+.footer-stamp {
+    margin-top: 30px;
+    padding-top: 10px;
+    border-top: 1px solid #cbd5e1;
+    font-size: 7.5pt;
+    color: #64748b;
+    display: flex;
+    justify-content: space-between;
+}
+
+    </style>
+</head>
+<body>
+    <div class="doc-header-banner">
+        <div class="agency">Majlis Agama Islam Negeri Sembilan (MAINS)</div>
+        <div class="system">Sistem Tindakan Surat Masuk (STSM) &bull; Dokumentasi Rasmi</div>
+    </div>
+    <div class="content-body">
+        <h1>PANDUAN PENGGUNA SISTEM (USER MANUAL)</h1>
+<h2>SISTEM TINDAKAN SURAT MASUK (STSM)</h2>
+<p><strong>MAJLIS AGAMA ISLAM NEGERI SEMBILAN (MAINS)</strong></p>
+<hr />
+<h3>MAKLUMAT PANDUAN</h3>
+<ul>
+<li><strong>Versi</strong>: 1.0 (Edisi Bergambar Rasmi)</li>
+<li><strong>Tarikh Kemaskini</strong>: November 2026</li>
+<li><strong>Agensi</strong>: Majlis Agama Islam Negeri Sembilan</li>
+<li><strong>Sasaran Pembaca</strong>: Semua Warga Kerja MAINS (Pengurusan, Ketua Jabatan, Ketua Unit, Pegawai Daerah/Cawangan, Pegawai Pelaksana, Kerani Pendaftaran, dan Pentadbir Sistem)</li>
+</ul>
+<hr />
+<h2>JADUAL KANDUNGAN</h2>
+<ol>
+<li><a href="#1-pengenalan-sistem">Pengenalan Sistem</a></li>
+<li><a href="#2-prasyarat--akses-ke-sistem">Prasyarat &amp; Akses ke Sistem</a></li>
+<li><a href="#3-log-masuk--pilihan-peranan-organisasi">Log Masuk &amp; Pilihan Peranan Organisasi</a></li>
+<li><a href="#4-navigasi--susun-atur-antaramuka">Navigasi &amp; Susun Atur Antaramuka</a></li>
+<li><a href="#5-panduan-modul-pendaftaran-surat-masuk">Panduan Modul Pendaftaran Surat Masuk</a>
+<ul>
+<li>5.1 Pendaftaran Surat Baharu (Mod Tunggal)</li>
+<li>5.2 Pengecaman Heuristik / AI Metadata Automatik</li>
+<li>5.3 Pendaftaran Pukal (Bulk Mode)</li>
+</ul>
+</li>
+<li><a href="#6-panduan-modul-peti-minit-pengurusan-tindakan-surat">Panduan Modul Peti Minit (Pengurusan Tindakan Surat)</a>
+<ul>
+<li>6.1 Membaca &amp; Melihat Butiran Surat (Laci Butiran)</li>
+<li>6.2 Meminitkan Arahan ke Bawah (Hierarki MAINS)</li>
+<li>6.3 Penggunaan Frasa Pantas (Quick Action Chips)</li>
+</ul>
+</li>
+<li><a href="#7-panduan-merekod-tindakan--maklum-balas">Panduan Merekod Tindakan &amp; Maklum Balas</a>
+<ul>
+<li>7.1 Kemaskini Status (Sedang / Telah Selesai)</li>
+<li>7.2 Melengkapkan Catatan Tindakan</li>
+<li>7.3 Pengesahan Maklum Balas &amp; Tandatangan Digital</li>
+</ul>
+</li>
+<li><a href="#8-panduan-penjanaan--cetakan-dokumen-rasmi">Panduan Penjanaan &amp; Cetakan Dokumen Rasmi</a>
+<ul>
+<li>8.1 Menjana &amp; Mencetak Slip Kod QR Pengesanan (Saiz A5)</li>
+<li>8.2 Mencetak Lembaran Minit Tindakan (Saiz A4)</li>
+</ul>
+</li>
+<li><a href="#9-panduan-pautan-surat-berkaitan-link-surat">Panduan Pautan Surat Berkaitan (Link Surat)</a></li>
+<li><a href="#10-panduan-modul-pemantauan-sla-14-hari--notifikasi">Panduan Modul Pemantauan SLA 14 Hari &amp; Notifikasi</a>
+<ul>
+<li>10.1 Memahami Status Warna SLA</li>
+<li>10.2 Menghantar Peringatan Segera (WhatsApp &amp; Emel)</li>
+</ul>
+</li>
+<li><a href="#11-panduan-modul-analisis--pelaporan">Panduan Modul Analisis &amp; Pelaporan</a></li>
+<li><a href="#12-panduan-modul-struktur-organisasi">Panduan Modul Struktur Organisasi</a></li>
+<li><a href="#13-panduan-modul-pentadbiran-sistem-khusus-admin">Panduan Modul Pentadbiran Sistem (Khusus Admin)</a>
+<ul>
+<li>13.1 Pengurusan Pengguna</li>
+<li>13.2 Pengurusan Menu Dinamik</li>
+<li>13.3 Pengurusan Peranan &amp; Matriks Kebenaran (RBAC)</li>
+<li>13.4 Tetapan Sistem &amp; Tempoh SLA</li>
+<li>13.5 Konfigurasi Tema Visual Antaramuka</li>
+</ul>
+</li>
+<li><a href="#14-soalan-lazim-faq--penyelesaian-masalah">Soalan Lazim (FAQ) &amp; Penyelesaian Masalah</a></li>
+</ol>
+<hr />
+<h2>1. PENGENALAN SISTEM</h2>
+<p>Sistem Tindakan Surat Masuk (STSM) MAINS ialah platform digital terpadu yang dirangka khas untuk memperkasa tadbir urus penerimaan, pengagihan, pemantauan, dan penyelesaian surat rasmi di Majlis Agama Islam Negeri Sembilan.</p>
+<h3>Faedah Utama Sistem:</h3>
+<ul>
+<li><strong>Tiada Lagi Surat Tertinggal</strong>: Penjejakan status automatik berpandukan Piagam Pelanggan MAINS (SLA 14 Hari).</li>
+<li><strong>Minit Pantas &amp; Tepat</strong>: Arahan disalurkan serta-merta mengikut struktur rasmi MAINS tanpa perlu menunggu edaran fizikal.</li>
+<li><strong>Slip Kod QR A5</strong>: Fail fizikal di pejabat dipautkan dengan rekod digital melalui imbasan Kod QR.</li>
+<li><strong>Jejak Audit Lengkap</strong>: Rekod telus bagi setiap pegawai yang melihat, meminitkan, dan menyelesaikan tindakan.</li>
+</ul>
+<hr />
+<h2>2. PRASYARAT &amp; AKSES KE SISTEM</h2>
+<h3>2.1 Keperluan Perkakasan &amp; Pelayar Web</h3>
+<ul>
+<li><strong>Pelayar Web Disyorkan</strong>: Google Chrome (versi 110+), Microsoft Edge (versi 110+), atau Mozilla Firefox (terkini).</li>
+<li><strong>Resolusi Skrin</strong>: 1280 x 720 piksel atau lebih tinggi (dioptimumkan untuk Desktop &amp; Tablet).</li>
+<li><strong>Sambungan Rangkaian</strong>: Akses ke rangkaian Intranet MAINS atau Internet yang stabil.</li>
+</ul>
+<h3>2.2 Alamat Pautan Sistem</h3>
+<ul>
+<li><strong>URL Sistem</strong>: <code>http://localhost:3000</code> (atau pautan portal rasmi agensi: <code>https://stsm.mains.gov.my</code>)</li>
+<li><strong>Backend API</strong>: Beroperasi pada port <code>3001</code> dengan sambungan selamat ke pangkalan data Microsoft SQL Server MAINS.</li>
+</ul>
+<hr />
+<h2>3. LOG MASUK &amp; PILIHAN PERANAN ORGANISASI</h2>
+<h3>3.1 Langkah-langkah Log Masuk</h3>
+<ol>
+<li>Buka pelayar web dan layari alamat URL sistem.</li>
+<li>Pada skrin log masuk, masukkan maklumat peribadi anda:
+<ul>
+<li><strong>Nama Pengguna (Username)</strong>: Masukkan ID pengguna anda (contoh: <code>admin</code> atau ID staf).</li>
+<li><strong>Kata Laluan (Password)</strong>: Masukkan kata laluan anda.</li>
+</ul>
+</li>
+<li>Klik butang <strong>&quot;Log Masuk Sistem&quot;</strong>.</li>
+<li>Sekiranya maklumat tepat, anda akan dibawa terus ke paparan Papan Pemuka Utama (Utama).</li>
+</ol>
+<p><img src="screenshots/01_login_screen.png" alt="Rajah 1: Antaramuka Log Masuk &amp; Butang Pilihan Peranan Pantas" />
+<em>Rajah 1: Antaramuka Log Masuk STSM dengan butang pilihan peranan pantas untuk demonstrasi dan pengujian sistem.</em></p>
+<blockquote class="note"><strong>NOTA PENTING:</strong> 
+Maklumat log masuk lalai untuk pengujian:
+- **Username**: `admin`
+- **Password**: `password`
+</blockquote>
+<h3>3.2 Penukaran Peranan Pandangan Organisasi (Dropdown Peranan)</h3>
+<p>Bagi tujuan fleksibiliti aliran kerja (terutamanya pegawai yang memangku atau pentadbir yang menyelia bahagian):</p>
+<ul>
+<li>Di bahagian atas bar pengepala (header), terdapat menu pilihan <strong>Peranan Bertindak</strong> (contoh: <em>Setiausaha, Timbalan Setiausaha Operasi, Pengarah Zakat, Pegawai Daerah Seremban</em>).</li>
+<li>Memilih peranan akan menyesuaikan Peti Minit dan tindakan mengikut hak kuasa jawatan tersebut.</li>
+</ul>
+<hr />
+<h2>4. NAVIGASI &amp; SUSUN ATUR ANTARAMUKA</h2>
+<p>Antaramuka STSM dibahagikan kepada komponen utama:</p>
+<ol>
+<li><strong>Bar Sisi Kiri (Sidebar)</strong>: Mengandungi menu modul mengikut kelayakan peranan pengguna (<em>Utama, Daftar Surat, Peti Minit, Pemantauan, Analisis, Struktur Organisasi, serta Menu Pentadbir</em>).</li>
+<li><strong>Bar Pengepala Atas (Top Header)</strong>: Memaparkan penunjuk peranan, notifikasi SLA segera, penukar tema mod gelap/cerah, dan butang log keluar.</li>
+<li><strong>Kawasan Kerja Utama (Main Canvas)</strong>: Menampilkan papan pemuka statistik metrik utama, amaran lewat, carta tren kemasukan, dan suapan aktiviti semasa.</li>
+</ol>
+<p><img src="screenshots/02_dashboard_utama.png" alt="Rajah 2: Papan Pemuka Utama STSM" />
+<em>Rajah 2: Papan Pemuka Utama memaparkan 4 kad statistik status SLA, amaran segera (&lt;=3 hari), carta tren surat, dan suapan aktiviti terkini.</em></p>
+<hr />
+<h2>5. PANDUAN MODUL PENDAFTARAN SURAT MASUK</h2>
+<p>Modul ini digunakan terutamanya oleh <strong>Kerani Pejabat</strong>, <strong>Urusetia</strong>, atau pegawai pentadbiran untuk merekod surat rasmi yang diterima.</p>
+<h3>5.1 Pendaftaran Surat Baharu (Mod Tunggal / Satu Surat)</h3>
+<ol>
+<li>Klik menu <strong>&quot;Daftar Surat&quot;</strong> pada bar sisi.</li>
+<li>Pastikan tab <strong>&quot;Daftar Surat Tunggal&quot;</strong> dipilih.</li>
+<li><strong>Muat Naik Lampiran Surat (Pilihan &amp; Digalakkan)</strong>:
+<ul>
+<li>Klik atau seret fail surat digital (PDF, JPG, PNG, DOCX) ke dalam kotak muat naik.</li>
+<li>Sistem akan mengaktifkan fungsi <strong>Pengecaman Heuristik Automatik</strong>:
+<ul>
+<li>Sistem secara automatik membaca corak nama fail/kandungan dan mengisi ruangan <em>Perkara</em>, <em>Pengirim</em>, <em>No Rujukan</em>, dan <em>Kategori</em>!</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Semak dan Lengkapkan Maklumat Surat</strong>:
+<ul>
+<li><strong>Nombor Daftar Masuk</strong>: Dijana automatik oleh sistem (contoh: <code>MAINS/SU/2026/0001</code>).</li>
+<li><strong>Nombor Rujukan Pengirim</strong>: Masukkan no. rujukan surat rasmi pengirim (contoh: <code>JHEAINS/P/100-2/3</code>).</li>
+<li><strong>Perkara / Tajuk Surat</strong>: Tajuk penuh surat (Huruf besar/kecil diformatkan secara kemas automatik).</li>
+<li><strong>Pengirim</strong>: Nama jabatan, syarikat, atau individu yang menghantar.</li>
+<li><strong>Tarikh Terima</strong>: Tarikh surat diterima di pejabat (lalai: tarikh hari ini).</li>
+<li><strong>Tarikh Surat</strong>: Tarikh yang tertera pada surat pengirim.</li>
+<li><strong>Kategori</strong>: Pilih kategori yang bersesuaian (<em>Pentadbiran, Zakat, Wakaf, Kewangan, Aduan, Jemputan, ICT, Lain-lain</em>).</li>
+<li><strong>Tahap Keutamaan</strong>: Pilih <em>Biasa</em>, <em>Segera</em>, atau <em>Sangat Segera</em>.</li>
+<li><strong>Catatan</strong>: Sebarang nota ringkas tambahan.</li>
+</ul>
+</li>
+<li>Klik butang <strong>&quot;Daftar Surat Masuk&quot;</strong>.</li>
+<li>Notifikasi kejayaan akan dipaparkan. Surat baharu kini rasmi didaftarkan dan dihantar terus ke <strong>Peti Minit Pejabat Setiausaha MAINS</strong>.</li>
+</ol>
+<p><img src="screenshots/03_daftar_surat.png" alt="Rajah 3: Borang Pendaftaran Surat Masuk" />
+<em>Rajah 3: Borang pendaftaran surat masuk tunggal dengan sokongan ekstraksi fail heuristik dan auto-penomboran siri MAINS.</em></p>
+<hr />
+<h2>6. PANDUAN MODUL PETI MINIT (PENGURUSAN TINDAKAN SURAT)</h2>
+<p>Peti Minit ialah ruang kerja harian bagi setiap pegawai dari peringkat Setiausaha hingga ke Pegawai Cawangan/Daerah.</p>
+<h3>6.1 Membaca &amp; Melihat Butiran Surat (Laci Butiran)</h3>
+<ol>
+<li>Klik menu <strong>&quot;Peti Minit&quot;</strong> pada bar sisi.</li>
+<li>Anda akan melihat 3 tab navigasi:
+<ul>
+<li><strong>Perlu Tindakan</strong>: Surat yang sedang menunggu tindakan daripada anda.</li>
+<li><strong>Diminitkan</strong>: Surat yang telah anda turunkan arahannya kepada pegawai bawahan.</li>
+<li><strong>Selesai</strong>: Surat yang telah diambil tindakan dan selesai sepenuhnya.</li>
+</ul>
+</li>
+<li>Klik mana-mana baris surat untuk membuka <strong>Laci Butiran Surat (Detail Drawer)</strong>.</li>
+</ol>
+<p><img src="screenshots/04_peti_minit.png" alt="Rajah 4: Paparan Peti Minit Tindakan" />
+<em>Rajah 4: Senarai surat dalam Peti Minit dibahagikan mengikut tab Perlu Tindakan, Diminitkan, dan Selesai.</em></p>
+<p><img src="screenshots/05_drawer_butiran.png" alt="Rajah 5: Laci Butiran Surat (Detail Drawer)" />
+<em>Rajah 5: Laci Butiran Surat memaparkan ringkasan lengkap surat, had SLA 14 hari, pautan lampiran fail, serta butang pintasan tindakan.</em></p>
+<h3>6.2 Meminitkan Arahan ke Bawah (Hierarki MAINS)</h3>
+<p>Sebagai ketua jabatan, bahagian, atau unit yang menerima surat:</p>
+<ol>
+<li>Pada senarai surat atau dalam Laci Butiran, klik butang <strong>&quot;Minitkan Arahan&quot;</strong> (ikon hantar ✉️).</li>
+<li>Sistem akan membuka tetingkap <strong>Minit Tindakan</strong>.</li>
+<li><strong>Pilih Pegawai / Unit Penerima</strong>:
+<ul>
+<li>Sistem memaparkan senarai pegawai/unit bawahan yang sah mengikut hierarki MAINS.</li>
+<li>Tandakan kotak pilihan pada satu atau beberapa penerima (contoh: pilih <em>Pengarah Jabatan Zakat</em> dan <em>Ketua Unit Agihan</em>).</li>
+</ul>
+</li>
+<li><strong>Masukkan Arahan Minit</strong>:
+<ul>
+<li>Anda boleh menaip arahan khusus secara manual dalam ruangan teks arahan.</li>
+<li>ATAU gunakan <strong>Frasa Pantas (Quick Action Chips)</strong> dengan mengklik butang cip yang disediakan:
+<ul>
+<li><em>&quot;Untuk tindakan segera&quot;</em></li>
+<li><em>&quot;Sila ambil tindakan sewajarnya&quot;</em></li>
+<li><em>&quot;Sila kaji &amp; kemukakan syor&quot;</em></li>
+<li><em>&quot;Untuk makluman &amp; tindakan&quot;</em></li>
+<li><em>&quot;Sila selaraskan &amp; laporkan kepada saya&quot;</em></li>
+<li><em>&quot;Sila hadir / wakilkan&quot;</em></li>
+<li><em>&quot;Sila sediakan draf jawapan&quot;</em></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Klik butang <strong>&quot;Hantar Minit Arahan&quot;</strong>.</li>
+</ol>
+<p><img src="screenshots/06_modal_minit.png" alt="Rajah 6: Tetingkap Minitkan Arahan ke Bawah" />
+<em>Rajah 6: Tetingkap penurunan minit arahan dengan hierarki penerima MAINS dan pilihan cip arahan pantas.</em></p>
+<hr />
+<h2>7. PANDUAN MEREKOD TINDAKAN &amp; MAKLUM BALAS</h2>
+<p>Apabila pegawai pelaksana atau unit berkaitan telah melaksanakan arahan yang diminitkan:</p>
+<h3>7.1 Mengemas Kini Status Tindakan</h3>
+<ol>
+<li>Buka surat yang berkaitan dalam Peti Minit.</li>
+<li>Klik butang <strong>&quot;Rekod Tindakan&quot;</strong>.</li>
+<li>Pilih status tindakan terkini:
+<ul>
+<li>🟡 <strong>Sedang Diambil Tindakan</strong>: Sekiranya tindakan sedang dalam siasatan, penyelarasan, atau penyediaan draf.</li>
+<li>🟢 <strong>Telah Selesai</strong>: Sekiranya tindakan fizikal/urusan surat telah selesai sepenuhnya.</li>
+</ul>
+</li>
+</ol>
+<h3>7.2 Melengkapkan Catatan Tindakan Selesai</h3>
+<ol>
+<li>Sekiranya anda memilih status <strong>&quot;Telah Selesai&quot;</strong>, ruangan <strong>Catatan Tindakan</strong> adalah mandatori.</li>
+<li>Nyatakan dengan jelas tindakan yang telah diambil.</li>
+<li>Klik <strong>&quot;Simpan Rekod Tindakan&quot;</strong>.</li>
+</ol>
+<p><img src="screenshots/07_modal_rekod.png" alt="Rajah 7: Modal Perekodan Tindakan Selesai" />
+<em>Rajah 7: Borang pengemaskinian status tindakan kepada Sedang atau Telah Diambil Tindakan berserta ulasan penyelesaian.</em></p>
+<hr />
+<h2>8. PANDUAN PENJANAAN &amp; CETAKAN DOKUMEN RASMI</h2>
+<p>Sistem menyediakan fungsi cetakan dokumen fizikal piawai kerajaan yang diselaraskan dengan rekod digital.</p>
+<h3>8.1 Menjana &amp; Mencetak Slip Kod QR Pengesanan (Saiz A5)</h3>
+<p>Slip ini bertujuan untuk dilekatkan pada kulit fail fizikal surat:</p>
+<ol>
+<li>Buka butiran surat dan klik butang <strong>&quot;Cetak Slip QR&quot;</strong> (ikon pencetak 🖨️).</li>
+<li>Sistem akan memaparkan pratonton <strong>Slip Pengesanan Surat Masuk (Format A5)</strong>:
+<ul>
+<li>Mengandungi Kod QR pengesanan unik beresolusi tinggi.</li>
+<li>Nombor Daftar Surat dan Nombor Rujukan Pengirim.</li>
+<li>Tarikh Terima dan Tarikh Had Masa SLA (14 Hari).</li>
+<li>Pengirim dan Perkara Surat.</li>
+<li>Ruangan tandatangan penerima fail fizikal.</li>
+</ul>
+</li>
+<li>Klik butang <strong>&quot;Cetak Slip&quot;</strong>. Dialog cetakan pelayar akan dibuka dengan susun atur format kertas A5 secara automatik.</li>
+</ol>
+<p><img src="screenshots/08_slip_qr_a5.png" alt="Rajah 8: Slip Pengesanan Surat Masuk Berkod QR (Saiz A5)" />
+<em>Rajah 8: Slip Pengesanan Surat Masuk A5 lengkap dengan Kod QR pengesanan fail fizikal dan kiraan tamat tempoh SLA 14 Hari.</em></p>
+<blockquote class="tip"><strong>PETUA & TIP:</strong> 
+Imbasan Kod QR pada slip menggunakan telefon pintar atau tablet akan terus membuka rekod status surat dalam sistem STSM!
+</blockquote>
+<h3>8.2 Mencetak Lembaran Minit Tindakan (Saiz A4)</h3>
+<p>Lembaran minit fizikal diperlukan untuk simpanan dalam fail rasmi jabatan:</p>
+<ol>
+<li>Buka butiran surat dan klik butang <strong>&quot;Lembaran Minit&quot;</strong>.</li>
+<li>Sistem memaparkan format borang minit rasmi MAINS bersaiz A4 yang menyenaraikan:
+<ul>
+<li>Kepala surat rasmi Majlis Agama Islam Negeri Sembilan.</li>
+<li>Butiran penuh pendaftaran surat masuk.</li>
+<li>Jadual kronologi minit arahan lengkap daripada Setiausaha hingga ke pegawai pelaksana berserta tarikh dan catatan.</li>
+</ul>
+</li>
+<li>Klik butang <strong>&quot;Cetak Lembaran Minit&quot;</strong> untuk mencetak terus ke pencetak fizikal, atau klik <strong>&quot;Muat Turun PDF&quot;</strong> untuk menyimpan salinan digital.</li>
+</ol>
+<p><img src="screenshots/09_lembaran_minit_a4.png" alt="Rajah 9: Lembaran Minit Tindakan Rasmi MAINS (Saiz A4)" />
+<em>Rajah 9: Format cetakan Lembaran Minit A4 dengan jadual rekod kronologi penurunan arahan berhierarki.</em></p>
+<hr />
+<h2>9. PANDUAN PAUTAN SURAT BERKAITAN (LINK SURAT)</h2>
+<p>Sekiranya terdapat surat susulan, surat jawapan, atau rayuan yang berkaitan dengan surat yang pernah diterima sebelum ini:</p>
+<ol>
+<li>Buka butiran surat susulan berkenaan.</li>
+<li>Klik butang <strong>&quot;Pautkan Surat&quot;</strong> (ikon rantai 🔗).</li>
+<li>Tetingkap carian surat akan dibuka:
+<ul>
+<li>Taipkan Nombor Daftar, Nombor Rujukan Pengirim, atau Tajuk Perkara surat asal yang ingin dipautkan.</li>
+</ul>
+</li>
+<li>Pilih surat induk daripada senarai keputusan carian.</li>
+<li>Klik <strong>&quot;Sahkan Pautan Surat&quot;</strong>.</li>
+</ol>
+<p><img src="screenshots/10_paut_surat.png" alt="Rajah 10: Tetingkap Pautan Surat Berkaitan" />
+<em>Rajah 10: Modal carian dan pemautan surat rujukan terdahulu bagi tujuan semakan rujukan silang pantas.</em></p>
+<hr />
+<h2>10. PANDUAN MODUL PEMANTAUAN SLA 14 HARI &amp; NOTIFIKASI</h2>
+<p>Modul Pemantauan membolehkan pihak pengurusan dan pegawai memantau pematuhan Piagam Pelanggan MAINS (SLA 14 Hari).</p>
+<h3>10.1 Memahami Status &amp; Petunjuk Warna SLA</h3>
+<ul>
+<li>🟢 <strong>Telah Diambil Tindakan (Hijau)</strong>: Tindakan telah diselesaikan sepenuhnya dalam tempoh 14 hari.</li>
+<li>🟡 <strong>Sedang Diambil Tindakan (Kuning/Jingga)</strong>: Surat sedang diproses oleh pegawai bertindak.</li>
+<li>⚪ <strong>Akan Diambil Tindakan (Kelabu)</strong>: Surat baru diagihkan dan belum dimulakan.</li>
+<li>🔴 <strong>Lewat &gt; 14 Hari (Merah)</strong>: Surat telah melepasi had masa 14 hari dari tarikh terima dan BELUM selesai.</li>
+<li>⚠️ <strong>Amaran Baki Hari (Baki &lt;= 3 Hari)</strong>: Lencana amaran segera dipaparkan untuk mengingatkan pegawai.</li>
+</ul>
+<p><img src="screenshots/11_pemantauan_sla.png" alt="Rajah 11: Modul Pemantauan Menyeluruh SLA 14 Hari" />
+<em>Rajah 11: Jadual pemantauan status surat cawangan MAINS dengan penunjuk baki hari SLA dan butang notifikasi peringatan.</em></p>
+<hr />
+<h2>11. PANDUAN MODUL ANALISIS &amp; PELAPORAN</h2>
+<p>Modul Analisis memaparkan statistik visual berimpak tinggi:</p>
+<ol>
+<li>Klik menu <strong>&quot;Analisis&quot;</strong> pada bar sisi.</li>
+<li>Anda boleh menapis data mengikut tempoh masa: <strong>Harian</strong>, <strong>Mingguan</strong>, <strong>Bulanan</strong>, atau <strong>Tahunan</strong>.</li>
+<li>Komponen analisis merangkumi peratusan kadar pematuhan SLA, carta bar kemasukan surat bulanan, taburan kategori surat, dan perbandingan prestasi bahagian/daerah.</li>
+</ol>
+<p><img src="screenshots/12_analisis_laporan.png" alt="Rajah 12: Papan Pemuka Analisis &amp; Kadar Pematuhan SLA" />
+<em>Rajah 12: Laporan analitik kepatuhan SLA 14 hari, taburan kategori surat, dan graf prestasi antara jabatan.</em></p>
+<hr />
+<h2>12. PANDUAN MODUL STRUKTUR ORGANISASI</h2>
+<ol>
+<li>Klik menu <strong>&quot;Struktur Organisasi&quot;</strong> pada bar sisi.</li>
+<li>Paparan pokok hierarki rasmi MAINS akan dipaparkan:
+<ul>
+<li>Menara MAINS -&gt; Pejabat Setiausaha -&gt; TSO &amp; TSP -&gt; Jabatan -&gt; Bahagian -&gt; Unit -&gt; 11 Pejabat Daerah &amp; Cawangan.</li>
+</ul>
+</li>
+<li>Klik mana-mana nod organisasi untuk melihat maklumat terperinci penyandang jawatan, nombor telefon, WhatsApp, dan emel rasmi.</li>
+</ol>
+<p><img src="screenshots/13_struktur_organisasi.png" alt="Rajah 13: Carta Salasilah Struktur Organisasi MAINS" />
+<em>Rajah 13: Pokok hierarki agihan minit rasmi MAINS dan direktori saluran perhubungan pegawai cawangan/daerah.</em></p>
+<hr />
+<h2>13. PANDUAN MODUL PENTADBIRAN SISTEM (KHUSUS ADMIN)</h2>
+<p>Modul ini hanya boleh diakses oleh pengguna yang mempunyai peranan <code>pentadbir_sistem</code>.</p>
+<h3>13.1 Pengurusan Pengguna</h3>
+<ul>
+<li>Menambah kakitangan baharu, menyunting peranan, mengemas kini bahagian penempatan, dan menetapkan semula (<em>reset</em>) kata laluan.</li>
+</ul>
+<p><img src="screenshots/14_pengurusan_pengguna.png" alt="Rajah 14: Pengurusan Pengguna Sistem" />
+<em>Rajah 14: Direktori kakitangan sistem STSM untuk pendaftaran pengguna baharu dan kawalan status akaun.</em></p>
+<h3>13.2 Pengurusan Menu Dinamik</h3>
+<ul>
+<li>Pentadbir boleh menetapkan keterlihatan setiap menu pada bar sisi mengikut peranan (<em>Pentadbir, Pengurusan, Ketua Unit, Pegawai Pelaksana, Kerani</em>) dengan menogol kotak semak.</li>
+</ul>
+<p><img src="screenshots/15_pengurusan_menu.png" alt="Rajah 15: Pengurusan Menu Dinamik Mengikut Peranan" />
+<em>Rajah 15: Antaramuka kawal selia keterlihatan menu navigasi sistem berasaskan peranan.</em></p>
+<h3>13.3 Pengurusan Peranan &amp; Matriks Kebenaran (RBAC)</h3>
+<ul>
+<li>Memaparkan matriks 12 kebenaran hak kuasa untuk dikawal selia secara langsung mengikut keperluan keselamatan agensi.</li>
+</ul>
+<p><img src="screenshots/16_pengurusan_peranan.png" alt="Rajah 16: Pengurusan Peranan &amp; Matriks Hak Akses (RBAC)" />
+<em>Rajah 16: Matriks penetapan hak akses 12 modul kuasa mengikut 5 kategori peranan utama.</em></p>
+<h3>13.4 &amp; 13.5 Tetapan Sistem, Tempoh SLA &amp; Tema Visual</h3>
+<ul>
+<li>Mengkonfigurasi tempoh SLA piawai (14 hari), maklumat surat-menyurat Menara MAINS, memantau kesihatan pangkalan data MSSQL dan storan OBS, serta mengubah suai tema warna visual antaramuka.</li>
+</ul>
+<p><img src="screenshots/17_tetapan_sistem.png" alt="Rajah 17: Konfigurasi Tetapan Sistem &amp; SLA MAINS" />
+<em>Rajah 17: Tetapan parameter operasi agensi, tempoh had masa SLA, dan pemantauan pelayan pangkalan data.</em></p>
+<hr />
+<h2>14. SOALAN LAZIM (FAQ) &amp; PENYELESAIAN MASALAH</h2>
+<h3>Q1: Apakah yang perlu saya lakukan jika terlupa kata laluan?</h3>
+<blockquote>
+<p><strong>Jawapan</strong>: Sila hubungi Pentadbir Sistem (Bahagian Teknologi Maklumat MAINS) untuk melaksanakan penetapan semula (<em>password reset</em>) kepada kata laluan sementara.</p>
+</blockquote>
+<h3>Q2: Bolehkah surat yang telah selesai dibuka semula untuk tindakan susulan?</h3>
+<blockquote>
+<p><strong>Jawapan</strong>: Ya, pihak pengurusan atau ketua unit boleh meminitkan arahan baharu pada surat tersebut sekiranya terdapat maklumat baharu yang memerlukan tindakan susulan.</p>
+</blockquote>
+<h3>Q3: Mengapa sistem menolak fail lampiran yang saya muat naik?</h3>
+<blockquote>
+<p><strong>Jawapan</strong>: Pastikan format fail adalah <code>.pdf</code>, <code>.jpg</code>, <code>.jpeg</code>, <code>.png</code>, <code>.doc</code>, <code>.docx</code>, atau <code>.xls</code> dan saiz fail tidak melebihi <strong>10MB</strong>.</p>
+</blockquote>
+<h3>Q4: Bagaimanakah cara untuk mencetak Kod QR bersaiz A5 dengan tepat?</h3>
+<blockquote>
+<p><strong>Jawapan</strong>: Pada tetingkap dialog cetakan pelayar web (<em>Print Preview</em>), pastikan pilihan <em>Paper Size</em> ditetapkan kepada <strong>A5</strong> dan <em>Orientation</em> disetkan kepada <strong>Portrait</strong> atau <strong>Landscape</strong> mengikut format yang dipaparkan.</p>
+</blockquote>
+<hr />
+<p><em>Dokumen Tamat. Disediakan untuk Kegunaan Rasmi Majlis Agama Islam Negeri Sembilan (MAINS).</em></p>
+
+    </div>
+    <div class="footer-stamp">
+        <div>MAJLIS AGAMA ISLAM NEGERI SEMBILAN &copy; 2026</div>
+        <div>Dokumen Rasmi STSM &bull; Dicetak pada 21 November 2026</div>
+    </div>
+</body>
+</html>

@@ -1,3 +1,6 @@
+# Binaries
+cloudflared.exe
+
 # Dependencies
 node_modules/
 /.pnp

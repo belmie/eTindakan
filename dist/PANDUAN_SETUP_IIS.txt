@@ -1,0 +1,44 @@
+================================================================================
+   PANDUAN SETUP MANUAL SISTEM STSM DI PELAYAN WINDOWS IIS SERVER
+================================================================================
+
+Folder "dist" ini mengandungi keseluruhan sistem STSM yang telah siap dibina
+untuk pengeluaran (Turnkey Production Package).
+
+--------------------------------------------------------------------------------
+LANGKAH 1: SALIN FOLDER INI KE PELAYAN IIS
+--------------------------------------------------------------------------------
+1. Salin keseluruhan isi kandungan folder "dist" ini ke pelayan anda, contohnya ke:
+   C:\inetpub\wwwroot\stsm-mains\
+
+--------------------------------------------------------------------------------
+LANGKAH 2: SETUP LAMAN WEB DI IIS MANAGER
+--------------------------------------------------------------------------------
+1. Buka IIS Manager (Run -> inetmgr).
+2. Pastikan modul berikut telah dipasang di pelayan:
+   - URL Rewrite 2.1
+   - Application Request Routing (ARR) 3.0 (Enable Proxy: True)
+3. Klik kanan "Sites" -> "Add Website...".
+4. Masukkan maklumat:
+   - Site Name     : STSM-MAINS
+   - Physical Path : C:\inetpub\wwwroot\stsm-mains\ (folder dist yang anda salin)
+   - Binding       : Port 80 (atau nama domain cth: stsm.mains.gov.my)
+5. Klik OK.
+   (Fail web.config yang disertakan akan terus memproksikan trafik ke Port 5130)
+
+--------------------------------------------------------------------------------
+LANGKAH 3: MENJALANKAN APLIKASI
+--------------------------------------------------------------------------------
+Pilihan A (Paling Mudah):
+- Dwiklik sahaja pada fail "start-server.bat". Kedua-dua Frontend (5130) dan
+  Backend (3001) akan berjalan serentak.
+
+Pilihan B (Gunakan PM2 - Disyorkan untuk Windows Server):
+- Buka command prompt di folder ini dan jalankan:
+    pm2 start ecosystem.config.js
+    pm2 save
+
+--------------------------------------------------------------------------------
+SELESAI!
+Sistem kini boleh dilayari melalui pelayan IIS anda.
+================================================================================

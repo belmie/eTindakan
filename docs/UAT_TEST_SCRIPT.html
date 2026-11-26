@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <title>Uat Test Script - STSM MAINS</title>
+    <style>
+        
+@page {
+    size: A4 portrait;
+    margin: 18mm 14mm 18mm 14mm;
+}
+
+@media print {
+    body {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    .page-break {
+        page-break-before: always;
+    }
+    h2 {
+        page-break-before: auto;
+        page-break-after: avoid;
+    }
+    table, figure, pre {
+        page-break-inside: avoid;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background: #ffffff;
+    line-height: 1.55;
+    font-size: 9.5pt;
+    margin: 0;
+    padding: 0;
+}
+
+.doc-header-banner {
+    border-bottom: 2px solid #0b3d5c;
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.doc-header-banner .agency {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #0b3d5c;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.doc-header-banner .system {
+    font-size: 8.5pt;
+    color: #64748b;
+    font-weight: 500;
+}
+
+h1 {
+    font-size: 18pt;
+    font-weight: 800;
+    color: #0b3d5c;
+    line-height: 1.25;
+    margin-top: 0;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+}
+
+h2 {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #0b3d5c;
+    border-bottom: 1.5px solid #e2e8f0;
+    padding-bottom: 4px;
+    margin-top: 22px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #334155;
+    margin-top: 16px;
+    margin-bottom: 6px;
+}
+
+h4 {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #475569;
+    margin-top: 12px;
+    margin-bottom: 4px;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 8px;
+    text-align: justify;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #cbd5e1;
+    margin: 18px 0;
+}
+
+ul, ol {
+    margin-top: 0;
+    margin-bottom: 8px;
+    padding-left: 22px;
+}
+
+li {
+    margin-bottom: 3px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 16px 0;
+    font-size: 8pt;
+    line-height: 1.4;
+}
+
+th {
+    background-color: #0b3d5c;
+    color: #ffffff;
+    font-weight: 600;
+    text-align: left;
+    padding: 6px 8px;
+    border: 1px solid #0b3d5c;
+}
+
+td {
+    padding: 5px 8px;
+    border: 1px solid #cbd5e1;
+    vertical-align: top;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+code {
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 8.5pt;
+    background-color: #f1f5f9;
+    color: #0f172a;
+    padding: 1px 4px;
+    border-radius: 3px;
+    border: 1px solid #e2e8f0;
+}
+
+pre {
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 8pt;
+    line-height: 1.45;
+    overflow-x: auto;
+    margin: 10px 0 14px 0;
+}
+
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    border: none;
+    font-size: 8pt;
+}
+
+blockquote {
+    margin: 10px 0;
+    padding: 8px 14px;
+    background-color: #f0fdf4;
+    border-left: 4px solid #16a34a;
+    border-radius: 0 4px 4px 0;
+    color: #166534;
+    font-size: 8.5pt;
+}
+
+blockquote.note {
+    background-color: #eff6ff;
+    border-left-color: #2563eb;
+    color: #1e40af;
+}
+
+blockquote.warning {
+    background-color: #fffbeb;
+    border-left-color: #d97706;
+    color: #92400e;
+}
+
+img {
+    max-width: 96%;
+    height: auto;
+    display: block;
+    margin: 14px auto 4px auto;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+    page-break-inside: avoid;
+}
+
+p em {
+    color: #64748b;
+    font-size: 8pt;
+}
+
+.checkbox {
+    font-family: monospace;
+    font-weight: bold;
+    color: #475569;
+}
+
+.footer-stamp {
+    margin-top: 30px;
+    padding-top: 10px;
+    border-top: 1px solid #cbd5e1;
+    font-size: 7.5pt;
+    color: #64748b;
+    display: flex;
+    justify-content: space-between;
+}
+
+    </style>
+</head>
+<body>
+    <div class="doc-header-banner">
+        <div class="agency">Majlis Agama Islam Negeri Sembilan (MAINS)</div>
+        <div class="system">Sistem Tindakan Surat Masuk (STSM) &bull; Dokumentasi Rasmi</div>
+    </div>
+    <div class="content-body">
+        <h1>SKRIP UJIAN PENERIMAAN PENGGUNA (USER ACCEPTANCE TESTING - UAT)</h1>
+<h2>SISTEM TINDAKAN SURAT MASUK (STSM)</h2>
+<p><strong>MAJLIS AGAMA ISLAM NEGERI SEMBILAN (MAINS)</strong></p>
+<hr />
+<h3>MAKLUMAT DOKUMEN UAT</h3>
+<ul>
+<li><strong>Nama Projek</strong>: Sistem Tindakan Surat Masuk (STSM) MAINS</li>
+<li><strong>Versi Dokumen</strong>: 1.0</li>
+<li><strong>Fasa Ujian</strong>: User Acceptance Testing (UAT)</li>
+<li><strong>Tarikh Ujian</strong>: 21 - 25 November 2026</li>
+<li><strong>Lokasi Ujian</strong>: Makmal Komputer / Bilik Mesyuarat Menara MAINS &amp; Pejabat Daerah/Cawangan</li>
+<li><strong>Persekitaran Ujian</strong>: UAT Staging Server (<code>http://localhost:3000</code> / <code>http://stsm-uat.mains.gov.my</code>)</li>
+<li><strong>Pangkalan Data</strong>: MSSQL Server (Pangkalan Data Ujian: <code>stsm_mains_uat</code>)</li>
+</ul>
+<hr />
+<h2>1. PENGENALAN &amp; OBJEKTIF UAT</h2>
+<h3>1.1 Objektif</h3>
+<ol>
+<li>Mengesahkan bahawa semua fungsi sistem yang dibangunkan memenuhi Spesifikasi Keperluan Pengguna (URS).</li>
+<li>Memastikan aliran kerja pendaftaran surat masuk, penurunan minit arahan berhierarki, perekodan tindakan, pematuhan SLA 14 hari, dan penjanaan dokumen rasmi beroperasi dengan lancar dan bebas ralat.</li>
+<li>Memastikan keserasian antaramuka, keselamatan hak akses mengikut peranan (RBAC), serta kesediaan sistem untuk pelaksanaan fasa <em>Go-Live</em>.</li>
+</ol>
+<h3>1.2 Kriteria Penerimaan (Acceptance Criteria)</h3>
+<ul>
+<li><strong>Kadar Kejayaan Minimum</strong>: 100% kes ujian tahap Kritikal &amp; Tinggi (<em>Critical &amp; High</em>) mesti Lulus (PASS).</li>
+<li><strong>Ralat Terbuka (Open Bugs)</strong>: Sifar (0) isu <em>Severity 1 (Blocker/Critical)</em>. Sebarang isu <em>Severity 2/3</em> mesti mempunyai pelan pembetulan yang dipersetujui.</li>
+<li><strong>Pengesahan Rasmi</strong>: Ditandatangani oleh wakil penguji daripada setiap bahagian dan pentadbir sistem MAINS.</li>
+</ul>
+<hr />
+<h2>2. PROFIL PENGUJI (TESTER PROFILES)</h2>
+<table>
+<thead>
+<tr>
+<th>ID Penguji</th>
+<th>Nama Pegawai</th>
+<th>Jawatan / Bahagian</th>
+<th>Peranan Diuji</th>
+<th>Tandatangan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UAT-P1</td>
+<td>Puan Noor Azira binti Najib</td>
+<td>Unit Urusetia, BKK</td>
+<td><code>kerani</code></td>
+<td>_______________</td>
+</tr>
+<tr>
+<td>UAT-P2</td>
+<td>Encik Zainal bin Said</td>
+<td>Pejabat Setiausaha MAINS</td>
+<td><code>pengurusan</code></td>
+<td>_______________</td>
+</tr>
+<tr>
+<td>UAT-P3</td>
+<td>Tuan Mahadi bin Ali</td>
+<td>Pengarah, Jabatan Zakat</td>
+<td><code>ketua_unit</code></td>
+<td>_______________</td>
+</tr>
+<tr>
+<td>UAT-P4</td>
+<td>Encik Mohd Hasni bin Zulkifle</td>
+<td>KPP, Bahagian Agihan Zakat</td>
+<td><code>ketua_unit</code></td>
+<td>_______________</td>
+</tr>
+<tr>
+<td>UAT-P5</td>
+<td>Encik Zamri bin Ahmad Suhaimi</td>
+<td>Pegawai MAINS Daerah Seremban</td>
+<td><code>pegawai_pelaksana</code></td>
+<td>_______________</td>
+</tr>
+<tr>
+<td>UAT-P6</td>
+<td>Puan Norpisah binti Zakaria</td>
+<td>KPP, Bahagian Teknologi Maklumat</td>
+<td><code>pentadbir_sistem</code></td>
+<td>_______________</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3. PANDUAN PENGISIAN STATUS KES UJIAN</h2>
+<ul>
+<li><strong>LULUS (PASS)</strong>: Hasil sebenar menepati hasil yang dijangka.</li>
+<li><strong>GAGAL (FAIL)</strong>: Hasil sebenar tidak menepati hasil yang dijangka atau sistem mengeluarkan ralat.</li>
+<li><strong>BLOCKED</strong>: Ujian tidak dapat diteruskan kerana terdapat isu prasyarat atau kegagalan modul lain.</li>
+</ul>
+<hr />
+<h2>4. JADUAL MATRIKS KES UJIAN UAT (DETAILED TEST CASES)</h2>
+<h3>MODUL 1: AUTENTIKASI &amp; KAWALAN HAK AKSES (AUTH &amp; RBAC)</h3>
+<table>
+<thead>
+<tr>
+<th>No. Ujian</th>
+<th>Modul / Fungsi</th>
+<th>Prasyarat</th>
+<th>Langkah Pengujian</th>
+<th>Data Ujian</th>
+<th>Hasil Dijangka</th>
+<th>Status (Lulus/Gagal)</th>
+<th>Catatan / Isu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>UAT-AUTH-01</strong></td>
+<td>Log Masuk Berjaya</td>
+<td>Pelayan aktif, pelayar dibuka pada halaman <code>/</code></td>
+<td>1. Masukkan Username.<br>2. Masukkan Password yang sah.<br>3. Klik &quot;Log Masuk Sistem&quot;.</td>
+<td>Username: <code>admin</code><br>Password: <code>password</code></td>
+<td>Berjaya log masuk, mesej selamat datang dipaparkan, pengguna dibawa ke Papan Pemuka Utama (<code>utama</code>).</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-AUTH-02</strong></td>
+<td>Log Masuk Gagal (Kata Laluan Tidak Sah)</td>
+<td>Halaman log masuk</td>
+<td>1. Masukkan Username sah.<br>2. Masukkan Password salah.<br>3. Klik &quot;Log Masuk&quot;.</td>
+<td>Username: <code>admin</code><br>Password: <code>salah123</code></td>
+<td>Sistem memaparkan notifikasi ralat amaran: &quot;Nama pengguna atau kata laluan tidak sah&quot;. Akses disekat.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-AUTH-03</strong></td>
+<td>Log Keluar Selamat</td>
+<td>Pengguna sedang log masuk</td>
+<td>1. Klik butang &quot;Log Keluar&quot; pada bahagian kanan pengepala (header).</td>
+<td>Sesi aktif pengguna</td>
+<td>Sesi ditamatkan serta-merta, token JWT dipadam daripada storan, antaramuka kembali ke borang log masuk.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-AUTH-04</strong></td>
+<td>Sekatan Menu Mengikut Peranan</td>
+<td>Log masuk sebagai Kerani (<code>kerani</code>)</td>
+<td>1. Periksa menu pada bar sisi.<br>2. Cuba akses URL modul admin secara manual.</td>
+<td>Peranan: Kerani</td>
+<td>Menu Pentadbir (Pengurusan Pengguna, Menu, Peranan, Tetapan) tidak dipaparkan dan tidak boleh diakses.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>MODUL 2: PENDAFTARAN SURAT MASUK INDIVIDU (REGISTRATION)</h3>
+<table>
+<thead>
+<tr>
+<th>No. Ujian</th>
+<th>Modul / Fungsi</th>
+<th>Prasyarat</th>
+<th>Langkah Pengujian</th>
+<th>Data Ujian</th>
+<th>Hasil Dijangka</th>
+<th>Status (Lulus/Gagal)</th>
+<th>Catatan / Isu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>UAT-REG-01</strong></td>
+<td>Penomboran Automatik Format MAINS</td>
+<td>Log masuk peranan <code>kerani</code> atau <code>pentadbir_sistem</code></td>
+<td>1. Klik menu &quot;Daftar Surat&quot;.<br>2. Lihat medan &quot;Nombor Daftar&quot;.</td>
+<td>Tarikh Terima: Semasa</td>
+<td>Sistem memaparkan format nombor pendaftaran siri seterusnya secara automatik: <code>MAINS/SU/{TAHUN}/{SIRI_4_DIGIT}</code>.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-REG-02</strong></td>
+<td>Muat Naik Lampiran &amp; Pengecaman Heuristik</td>
+<td>Pada halaman Daftar Surat</td>
+<td>1. Pilih fail surat PDF/gambar.<br>2. Muat naik ke dalam zon seretan.</td>
+<td>Fail: <code>Surat_Rayuan_Bantuan_Zakat_Perniagaan_Ahmad_2026.pdf</code></td>
+<td>Sistem memuat naik fail, membaca tajuk, dan auto-isi medan Perkara, Pengirim, dan Kategori ('Zakat'). Toast notifikasi kejayaan auto-isi dipaparkan.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-REG-03</strong></td>
+<td>Validasi Medan Mandatori</td>
+<td>Pada borang pendaftaran</td>
+<td>1. Biarkan ruangan Perkara dan Pengirim kosong.<br>2. Klik butang &quot;Daftar Surat Masuk&quot;.</td>
+<td>Medan kosong</td>
+<td>Sistem menghalang penghantaran dan memaparkan mesej amaran merah: &quot;Sila isi Perkara dan Pengirim&quot;.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-REG-04</strong></td>
+<td>Pendaftaran Surat Tunggal Berjaya</td>
+<td>Borang diisi lengkap</td>
+<td>1. Isi Perkara, Pengirim, No Rujukan, Tarikh, Kategori, Keutamaan.<br>2. Lampirkan fail dokumen.<br>3. Klik &quot;Daftar Surat Masuk&quot;.</td>
+<td>Pengirim: &quot;Jabatan Hal Ehwal Agama Islam Negeri Sembilan&quot;<br>Perkara: &quot;Permohonan Penyelarasan Agihan Wakaf&quot;<br>Kategori: &quot;Wakaf&quot;<br>Keutamaan: &quot;Segera&quot;</td>
+<td>Surat berjaya didaftarkan, nombor daftar disahkan, rekod disimpan dalam pangkalan data, dan dihantar ke Peti Minit Setiausaha (<code>su</code>).</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-REG-05</strong></td>
+<td>Had Saiz &amp; Format Lampiran</td>
+<td>Borang pendaftaran</td>
+<td>1. Cuba muat naik fail berformat <code>.exe</code> atau fail melebihi saiz 10MB.</td>
+<td>Fail: <code>program.exe</code> atau fail &gt; 10MB</td>
+<td>Sistem menolak muat naik dan memaparkan amaran: &quot;Jenis fail tidak dibenarkan&quot; atau saiz fail melebihi had.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>MODUL 3: PENDAFTARAN PUKAL (BULK REGISTRATION)</h3>
+<table>
+<thead>
+<tr>
+<th>No. Ujian</th>
+<th>Modul / Fungsi</th>
+<th>Prasyarat</th>
+<th>Langkah Pengujian</th>
+<th>Data Ujian</th>
+<th>Hasil Dijangka</th>
+<th>Status (Lulus/Gagal)</th>
+<th>Catatan / Isu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>UAT-BLK-01</strong></td>
+<td>Beralih ke Mod Pukal</td>
+<td>Halaman Daftar Surat</td>
+<td>1. Klik butang togol mod ke &quot;Pendaftaran Pukal&quot;.</td>
+<td>-</td>
+<td>Antaramuka beralih ke mod pendaftaran kelompok dengan ruangan zon fail pukal dan tetapan sepunya.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-BLK-02</strong></td>
+<td>Muat Naik Berbilang Dokumen</td>
+<td>Mod Pendaftaran Pukal</td>
+<td>1. Pilih 3 fail PDF berbeza serentak.<br>2. Masukkan Pengirim Sepunya.<br>3. Pilih Kategori Sepunya.</td>
+<td>3 fail PDF,<br>Pengirim: &quot;Pejabat Daerah Seremban&quot;,<br>Kategori: &quot;Pentadbiran&quot;</td>
+<td>3 baris borang dijana dalam jadual grid. Pengirim dan Kategori terisi secara automatik bagi setiap baris.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-BLK-03</strong></td>
+<td>Simpan Pendaftaran Pukal</td>
+<td>Jadual grid pukal lengkap</td>
+<td>1. Klik butang &quot;Simpan Semua Pendaftaran Pukal&quot;.</td>
+<td>3 dokumen dalam jadual</td>
+<td>Ketiga-tiga surat didaftarkan serentak dengan 3 nombor daftar berturutan (contoh: <code>.../0002</code>, <code>.../0003</code>, <code>.../0004</code>).</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>MODUL 4: PETI MINIT &amp; PENURUNAN ARAHAN HIERARKI (MINITING)</h3>
+<table>
+<thead>
+<tr>
+<th>No. Ujian</th>
+<th>Modul / Fungsi</th>
+<th>Prasyarat</th>
+<th>Langkah Pengujian</th>
+<th>Data Ujian</th>
+<th>Hasil Dijangka</th>
+<th>Status (Lulus/Gagal)</th>
+<th>Catatan / Isu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>UAT-MNT-01</strong></td>
+<td>Paparan Surat dalam Peti Minit</td>
+<td>Log masuk sebagai Setiausaha (<code>su</code>)</td>
+<td>1. Klik menu &quot;Peti Minit&quot;.<br>2. Semak tab &quot;Perlu Tindakan&quot;.</td>
+<td>Surat baharu didaftarkan</td>
+<td>Surat yang baru didaftarkan berada dalam senarai &quot;Perlu Tindakan&quot; dengan status &quot;Akan Diambil Tindakan&quot;.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-MNT-02</strong></td>
+<td>Buka Laci Butiran Surat (Drawer)</td>
+<td>Peti Minit mengandungi surat</td>
+<td>1. Klik pada salah satu baris surat.</td>
+<td>Surat pilihan</td>
+<td>Laci butiran terbuka dari sebelah kanan memaparkan No Daftar, Pengirim, Perkara, Keutamaan, Had SLA, dan lampiran dokumen.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-MNT-03</strong></td>
+<td>Buka Modal Minit Arahan</td>
+<td>Pada Laci Butiran atau senarai surat</td>
+<td>1. Klik butang &quot;Minitkan Arahan&quot; (ikon ✉️).</td>
+<td>Surat pilihan</td>
+<td>Tetingkap modal minit terbuka memaparkan senarai pegawai subordinat MAINS dan ruangan arahan minit.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-MNT-04</strong></td>
+<td>Pemilihan Penerima &amp; Frasa Pantas (Chips)</td>
+<td>Modal Minit dibuka</td>
+<td>1. Pilih penerima: <code>Pengarah Jabatan Zakat</code>.<br>2. Klik cip arahan pantas: <em>&quot;Sila kaji &amp; kemukakan syor&quot;</em>.<br>3. Tambah catatan tambahan.</td>
+<td>Penerima: <code>jz</code><br>Arahan: Cip Pantas</td>
+<td>Frasa pantas dimasukkan ke dalam kotak teks arahan secara automatik dan boleh disunting.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-MNT-05</strong></td>
+<td>Hantar Minit Arahan Berjaya</td>
+<td>Penerima dan arahan diisi</td>
+<td>1. Klik butang &quot;Hantar Minit Arahan&quot;.</td>
+<td>-</td>
+<td>Minit berjaya dihantar. Surat pada profil Setiausaha beralih ke tab &quot;Diminitkan&quot;. Log audit minit dikemas kini dengan cap masa.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-MNT-06</strong></td>
+<td>Penerimaan Minit oleh Pegawai Bawahan</td>
+<td>Log masuk sebagai Pengarah Zakat (<code>jz</code>)</td>
+<td>1. Akses menu &quot;Peti Minit&quot;.<br>2. Semak tab &quot;Perlu Tindakan&quot;.</td>
+<td>ID Peranan: <code>jz</code></td>
+<td>Surat yang diminitkan oleh Setiausaha kini berada dalam Peti Minit Pengarah Zakat untuk tindakan selanjutnya.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>MODUL 5: PEREKODAN TINDAKAN &amp; MAKLUM BALAS SELESAI (ACTION)</h3>
+<table>
+<thead>
+<tr>
+<th>No. Ujian</th>
+<th>Modul / Fungsi</th>
+<th>Prasyarat</th>
+<th>Langkah Pengujian</th>
+<th>Data Ujian</th>
+<th>Hasil Dijangka</th>
+<th>Status (Lulus/Gagal)</th>
+<th>Catatan / Isu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>UAT-ACT-01</strong></td>
+<td>Kemaskini Status kepada &quot;Sedang Diambil Tindakan&quot;</td>
+<td>Pegawai mempunyai surat dalam tab Perlu Tindakan</td>
+<td>1. Klik butang &quot;Rekod Tindakan&quot;.<br>2. Pilih radio &quot;Sedang Diambil Tindakan&quot;.<br>3. Klik &quot;Simpan&quot;.</td>
+<td>Status: <code>sedang</code></td>
+<td>Lencana status bertukar kepada warna kuning/jingga (&quot;Sedang Diambil Tindakan&quot;). Rekod audit mencatatkan permulaan tindakan.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-ACT-02</strong></td>
+<td>Validasi Catatan untuk Status Selesai</td>
+<td>Pada modal Rekod Tindakan</td>
+<td>1. Pilih radio &quot;Telah Selesai&quot;.<br>2. Biarkan catatan kosong.<br>3. Klik &quot;Simpan&quot;.</td>
+<td>Catatan: kosong</td>
+<td>Sistem mengeluarkan amaran: &quot;Catatan penyelesaian diperlukan untuk menandakan tindakan selesai&quot;. Status tidak dikemas kini.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-ACT-03</strong></td>
+<td>Rekod Tindakan Selesai Penuh</td>
+<td>Pada modal Rekod Tindakan</td>
+<td>1. Pilih &quot;Telah Selesai&quot;.<br>2. Taip ulasan terperinci tindakan yang telah diambil.<br>3. Klik &quot;Simpan&quot;.</td>
+<td>Catatan: &quot;Siasatan lapangan telah dibuat dan kelulusan agihan telah disempurnakan.&quot;</td>
+<td>Status tindakan bertukar kepada hijau (&quot;Telah Diambil Tindakan&quot;). Tarikh selesai direkodkan. Surat berpindah ke tab &quot;Selesai&quot;.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-ACT-04</strong></td>
+<td>Tandatangan Digital Maklum Balas</td>
+<td>Buka modal Maklum Balas Surat</td>
+<td>1. Lengkapkan borang maklum balas rasmi.<br>2. Lakar tandatangan pada pad digital.<br>3. Klik &quot;Hantar Maklum Balas&quot;.</td>
+<td>Kanvas Tandatangan</td>
+<td>Tandatangan digital berjaya disimpan bersama rekod maklum balas rasmi MAINS.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>MODUL 6: PENJANAAN &amp; CETAKAN DOKUMEN RASMI (PRINT &amp; QR)</h3>
+<table>
+<thead>
+<tr>
+<th>No. Ujian</th>
+<th>Modul / Fungsi</th>
+<th>Prasyarat</th>
+<th>Langkah Pengujian</th>
+<th>Data Ujian</th>
+<th>Hasil Dijangka</th>
+<th>Status (Lulus/Gagal)</th>
+<th>Catatan / Isu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>UAT-PRN-01</strong></td>
+<td>Penjanaan Slip Kod QR Pengesanan (A5)</td>
+<td>Buka butiran mana-mana surat</td>
+<td>1. Klik butang &quot;Cetak Slip QR&quot; (ikon 🖨️).</td>
+<td>Surat sedia ada</td>
+<td>Modal Slip Pengesanan terbuka dalam format A5 memaparkan Kod QR, No Daftar, Tarikh Terima, SLA 14 Hari, Pengirim &amp; Perkara.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-PRN-02</strong></td>
+<td>Imbasan Kod QR Slip Berfungsi</td>
+<td>Cetak atau imbas Kod QR pada skrin</td>
+<td>1. Buka aplikasi kamera / pengimbas telefon pintar.<br>2. Imbas Kod QR pada slip.</td>
+<td>Kod QR dijana</td>
+<td>Imbasan membuka pautan sistem yang merujuk terus kepada rekod nombor pendaftaran surat tersebut.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-PRN-03</strong></td>
+<td>Cetakan Lembaran Minit Tindakan (A4)</td>
+<td>Buka butiran surat dengan beberapa minit</td>
+<td>1. Klik butang &quot;Lembaran Minit&quot;.</td>
+<td>Surat dengan sejarah minit</td>
+<td>Modal Lembaran Minit A4 terbuka memaparkan kepala surat MAINS, jadual urutan minit lengkap dari atas ke bawah, tarikh dan catatan.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-PRN-04</strong></td>
+<td>Eksport PDF Lembaran Minit</td>
+<td>Pada modal Lembaran Minit</td>
+<td>1. Klik butang &quot;Muat Turun PDF&quot; atau &quot;Cetak&quot;.</td>
+<td>-</td>
+<td>Dokumen PDF format A4 rasmi dijana dan sedia disimpan atau dicetak ke pencetak fizikal.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>MODUL 7: PAUTAN SURAT BERKAITAN (LINK SURAT)</h3>
+<table>
+<thead>
+<tr>
+<th>No. Ujian</th>
+<th>Modul / Fungsi</th>
+<th>Prasyarat</th>
+<th>Langkah Pengujian</th>
+<th>Data Ujian</th>
+<th>Hasil Dijangka</th>
+<th>Status (Lulus/Gagal)</th>
+<th>Catatan / Isu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>UAT-LNK-01</strong></td>
+<td>Carian Surat untuk Dipautkan</td>
+<td>Buka butiran surat kedua</td>
+<td>1. Klik butang &quot;Pautkan Surat&quot; (ikon 🔗).<br>2. Taip no pendaftaran atau kata kunci tajuk surat pertama.</td>
+<td>Carian: no daftar surat pertama</td>
+<td>Sistem menyenaraikan surat yang sepadan dengan kriteria carian tanpa menyenaraikan dirinya sendiri.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-LNK-02</strong></td>
+<td>Sahkan Pautan Surat Berkaitan</td>
+<td>Calon surat dipilih</td>
+<td>1. Pilih surat sasaran.<br>2. Klik butang &quot;Sahkan Pautan Surat&quot;.</td>
+<td>Pautan surat sasaran</td>
+<td>Notifikasi kejayaan dipaparkan. Lencana pautan biru muncul pada kedua-dua surat memaparkan nombor rujukan surat berkait.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-LNK-03</strong></td>
+<td>Navigasi Pantas Antara Surat Berkait</td>
+<td>Surat telah dipautkan</td>
+<td>1. Klik pada lencana rujukan surat berkait.</td>
+<td>-</td>
+<td>Sistem membuka terus rekod butiran surat berkaitan yang dipautkan dalam satu klik.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>MODUL 8: PEMANTAUAN SLA 14 HARI &amp; NOTIFIKASI PERINGATAN</h3>
+<table>
+<thead>
+<tr>
+<th>No. Ujian</th>
+<th>Modul / Fungsi</th>
+<th>Prasyarat</th>
+<th>Langkah Pengujian</th>
+<th>Data Ujian</th>
+<th>Hasil Dijangka</th>
+<th>Status (Lulus/Gagal)</th>
+<th>Catatan / Isu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>UAT-SLA-01</strong></td>
+<td>Kiraan Baki Hari SLA 14 Hari</td>
+<td>Paparan senarai surat</td>
+<td>1. Buka menu &quot;Pemantauan&quot;.<br>2. Semak lajur &quot;Had Masa &amp; Baki Hari&quot;.</td>
+<td>Surat didaftarkan tarikh tertentu</td>
+<td>Sistem memaparkan tarikh sasaran (<code>Tarikh Terima + 14 Hari</code>) dan baki hari yang tepat mengikut tarikh semasa.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-SLA-02</strong></td>
+<td>Pengesanan Status Lewat (&gt;14 Hari)</td>
+<td>Surat dengan tarikh terima &gt;14 hari lalu dan belum selesai</td>
+<td>1. Cari surat yang melebihi 14 hari.<br>2. Semak lencana status.</td>
+<td>Tarikh terima lampau</td>
+<td>Lencana merah &quot;Lewat &gt; 14 Hari&quot; dipaparkan dengan petunjuk bilangan hari lewat (contoh: Lewat 3 hari).</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-SLA-03</strong></td>
+<td>Pengesanan Amaran Segera (Baki &lt;= 3 Hari)</td>
+<td>Surat dengan baki hari 1-3 hari</td>
+<td>1. Semak senarai pemantauan.</td>
+<td>Baki 2 hari</td>
+<td>Lencana amaran segera (kuning/jingga) dipaparkan untuk memberi perhatian segera.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-SLA-04</strong></td>
+<td>Hantar Notifikasi Peringatan WhatsApp / Emel</td>
+<td>Surat lewat atau hampir lewat</td>
+<td>1. Klik ikon loceng/notifikasi pada baris surat.<br>2. Pilih penghantaran melalui WhatsApp atau Emel.</td>
+<td>Nombor telefon/emel pegawai bertindak</td>
+<td>Tetingkap notifikasi dibuka dengan draf peringatan rasmi yang telah diformatkan berserta nombor pendaftaran dan tarikh tamat tempoh.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>MODUL 9: PAPARAN DOKUMEN &amp; LAMPIRAN (DOCUMENT VIEWER)</h3>
+<table>
+<thead>
+<tr>
+<th>No. Ujian</th>
+<th>Modul / Fungsi</th>
+<th>Prasyarat</th>
+<th>Langkah Pengujian</th>
+<th>Data Ujian</th>
+<th>Hasil Dijangka</th>
+<th>Status (Lulus/Gagal)</th>
+<th>Catatan / Isu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>UAT-ATT-01</strong></td>
+<td>Buka Penonton Dokumen PDF</td>
+<td>Surat mempunyai lampiran PDF</td>
+<td>1. Buka Laci Butiran Surat.<br>2. Klik butang &quot;Lihat Dokumen&quot;.</td>
+<td>Fail PDF dimuat naik</td>
+<td>Dokumen PDF dipaparkan terus dalam modal <em>Document Viewer</em> terbina dalam dengan fungsi zum (<em>zoom</em>) dan navigasi halaman.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-ATT-02</strong></td>
+<td>Buka Lampiran Imej (JPG/PNG)</td>
+<td>Surat mempunyai lampiran imej</td>
+<td>1. Klik ikon lampiran imej.</td>
+<td>Fail imej</td>
+<td>Imej dipaparkan dengan jelas dan nisbah saiz yang betul dalam modal paparan.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>MODUL 10: STRUKTUR ORGANISASI &amp; DIREKTORI PEGAWAI</h3>
+<table>
+<thead>
+<tr>
+<th>No. Ujian</th>
+<th>Modul / Fungsi</th>
+<th>Prasyarat</th>
+<th>Langkah Pengujian</th>
+<th>Data Ujian</th>
+<th>Hasil Dijangka</th>
+<th>Status (Lulus/Gagal)</th>
+<th>Catatan / Isu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>UAT-ORG-01</strong></td>
+<td>Paparan Hierarki Organisasi Penuh</td>
+<td>Akses menu &quot;Struktur Organisasi&quot;</td>
+<td>1. Semak carta salasilah MAINS dari Setiausaha hingga ke 11 Cawangan.</td>
+<td>-</td>
+<td>Seluruh carta struktur MAINS dipaparkan mengikut urutan rasmi hierarki dan tahap kedalaman (<em>depth</em>).</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-ORG-02</strong></td>
+<td>Semakan Butiran Pegawai &amp; Cawangan</td>
+<td>Pada carta organisasi</td>
+<td>1. Klik pada nod &quot;Pejabat MAINS Daerah Port Dickson&quot;.</td>
+<td>Nod: <code>d-pd</code></td>
+<td>Maklumat jawatan ketua, nama penyandang, nombor telefon, nombor WhatsApp, dan emel rasmi dipaparkan dengan lengkap.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-ORG-03</strong></td>
+<td>Pautan Terus WhatsApp / Emel</td>
+<td>Pada kad pegawai</td>
+<td>1. Klik ikon WhatsApp atau Emel.</td>
+<td>Pegawai terpilih</td>
+<td>Pautan membuka terus aplikasi WhatsApp Web atau klien emel dengan nombor/alamat yang tepat.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>MODUL 11: ANALISIS &amp; LAPORAN PRESTASI</h3>
+<table>
+<thead>
+<tr>
+<th>No. Ujian</th>
+<th>Modul / Fungsi</th>
+<th>Prasyarat</th>
+<th>Langkah Pengujian</th>
+<th>Data Ujian</th>
+<th>Hasil Dijangka</th>
+<th>Status (Lulus/Gagal)</th>
+<th>Catatan / Isu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>UAT-RPT-01</strong></td>
+<td>Papan Pemuka Statistik Utama</td>
+<td>Akses menu &quot;Utama&quot;</td>
+<td>1. Semak 4 kad metrik utama di bahagian atas.</td>
+<td>Data pangkalan data</td>
+<td>Kad memaparkan angka tepat: Jumlah Surat Masuk, Dalam Tempoh SLA, Amaran Lewat (&lt;=3 Hari), dan Terlewat (&gt;14 Hari).</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-RPT-02</strong></td>
+<td>Laporan Graf &amp; Analitis</td>
+<td>Akses menu &quot;Analisis&quot;</td>
+<td>1. Buka halaman Analisis.<br>2. Tukar penapis julat (Bulanan / Tahunan).</td>
+<td>-</td>
+<td>Carta bar tren surat dan carta pai taburan kategori memaparkan graf interaktif Recharts dengan data yang sepadan.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-RPT-03</strong></td>
+<td>Analisis Indeks Pematuhan SLA (%)</td>
+<td>Halaman Analisis</td>
+<td>1. Semak peratusan pematuhan SLA agensi.</td>
+<td>-</td>
+<td>Peratusan dikira tepat: <code>(Surat Selesai Dalam Tempoh / Jumlah Surat Selesai) * 100%</code>.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>MODUL 12: PENTADBIRAN SISTEM (ADMINISTRATION)</h3>
+<table>
+<thead>
+<tr>
+<th>No. Ujian</th>
+<th>Modul / Fungsi</th>
+<th>Prasyarat</th>
+<th>Langkah Pengujian</th>
+<th>Data Ujian</th>
+<th>Hasil Dijangka</th>
+<th>Status (Lulus/Gagal)</th>
+<th>Catatan / Isu</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>UAT-ADM-01</strong></td>
+<td>Tambah Pengguna Baharu</td>
+<td>Log masuk sebagai <code>pentadbir_sistem</code></td>
+<td>1. Buka menu &quot;Pengurusan Pengguna&quot;.<br>2. Klik &quot;Tambah Pengguna&quot;.<br>3. Lengkapkan borang dan simpan.</td>
+<td>Nama: &quot;Ahmad Albab&quot;<br>Username: <code>ahmad</code><br>Email: <code>ahmad@mains.gov.my</code><br>Peranan: <code>ketua_unit</code><br>Bahagian: <code>Kewangan</code></td>
+<td>Pengguna baharu berjaya disimpan dalam pangkalan data dan disenaraikan dalam direktori pengguna.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-ADM-02</strong></td>
+<td>Reset Kata Laluan Pengguna</td>
+<td>Senarai pengguna dibuka</td>
+<td>1. Klik butang &quot;Reset Password&quot; pada salah seorang pengguna.<br>2. Sahkan tindakan.</td>
+<td>Pengguna terpilih</td>
+<td>Kata laluan berjaya di-reset ke kata laluan lalai (<code>password</code>). Pengguna boleh log masuk dengan kata laluan baharu tersebut.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-ADM-03</strong></td>
+<td>Pengurusan Menu Dinamik</td>
+<td>Buka menu &quot;Pengurusan Menu&quot;</td>
+<td>1. Buang tanda semak menu &quot;Daftar Surat&quot; untuk peranan <code>pegawai_pelaksana</code>.<br>2. Klik simpan.</td>
+<td>Peranan: Pegawai Pelaksana</td>
+<td>Apabila log masuk sebagai Pegawai Pelaksana, menu &quot;Daftar Surat&quot; tidak lagi kelihatan pada bar sisi.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-ADM-04</strong></td>
+<td>Matriks Peranan &amp; Kebenaran (RBAC)</td>
+<td>Buka menu &quot;Pengurusan Peranan&quot;</td>
+<td>1. Semak matriks 12 kebenaran mengikut 5 peranan utama.<br>2. Ubah salah satu kebenaran dan simpan.</td>
+<td>-</td>
+<td>Matriks berjaya dikemas kini dan berkuat kuasa serta-merta pada sistem.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-ADM-05</strong></td>
+<td>Kemaskini Tetapan SLA &amp; Profil Agensi</td>
+<td>Buka menu &quot;Tetapan Sistem&quot;</td>
+<td>1. Ubah tempoh SLA atau nombor telefon agensi.<br>2. Klik &quot;Simpan Tetapan&quot;.</td>
+<td>SLA: 14 Hari<br>Agensi: MAINS</td>
+<td>Tetapan baharu disimpan dan digunakan secara global pada kepala dokumen cetakan dan pengiraan SLA.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+<tr>
+<td><strong>UAT-ADM-06</strong></td>
+<td>Semakan Sambungan Pangkalan Data &amp; Storan</td>
+<td>Tab Pelayan / Sistem</td>
+<td>1. Semak status penunjuk MSSQL dan OBS Storan.</td>
+<td>-</td>
+<td>Penunjuk memaparkan status sambungan hijau: &quot;MSSQL Connected&quot; &amp; &quot;OBS Cloud Active&quot;.</td>
+<td><span class="checkbox">▢</span> Lulus<br><span class="checkbox">▢</span> Gagal</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h3>MODUL 13: UJIAN ALIRAN HUJUNG-KE-HUJUNG (END-TO-END WORKFLOW)</h3>
+<table>
+<thead>
+<tr>
+<th>No. Ujian</th>
+<th>Senario Aliran Kerja Penuh</th>
+<th>Penguji Terlibat</th>
+<th>Langkah Aliran Kerja</th>
+<th>Hasil Yang Diharapkan</th>
+<th>Status (Lulus/Gagal)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>UAT-E2E-01</strong></td>
+<td><strong>Kitaran Hayat Lengkap Surat Masuk (End-to-End Lifecycle)</strong>:<br>Daftar -&gt; Setiausaha -&gt; Pengarah -&gt; Ketua Unit -&gt; Pelaksana Cawangan -&gt; Cetak QR &amp; Minit -&gt; Selesai Tindakan</td>
+<td>Kerani, Setiausaha, Pengarah, Pegawai Daerah</td>
+<td>1. <strong>Kerani</strong>: Daftar surat permohonan bantuan zakat baharu beserta lampiran PDF.<br>2. <strong>Kerani</strong>: Cetak Slip Kod QR A5 untuk fail fizikal.<br>3. <strong>Setiausaha</strong>: Buka Peti Minit, semak surat, minitkan kepada Pengarah Zakat dengan arahan pantas <em>&quot;Sila kaji &amp; kemukakan syor&quot;</em>.<br>4. <strong>Pengarah Zakat</strong>: Terima surat, minitkan arahan kepada Pegawai MAINS Daerah Seremban.<br>5. <strong>Pegawai Daerah</strong>: Buka surat, semak baki hari SLA, rekod status <em>&quot;Sedang Diambil Tindakan&quot;</em>.<br>6. <strong>Pegawai Daerah</strong>: Selesaikan urusan siasatan, muat naik ulasan selesai, tanda <em>&quot;Telah Selesai&quot;</em>.<br>7. <strong>Urusetia</strong>: Cetak Lembaran Minit A4 yang lengkap dengan kronologi perjalanan surat.<br>8. <strong>Pihak Pengurusan</strong>: Semak laporan Analisis, sahkan bahawa surat tersebut direkodkan sebagai <em>&quot;Selesai Dalam Tempoh SLA&quot;</em>.</td>
+<td>Seluruh rantaian proses daripada pendaftaran hingga penutupan fail berjalan lancar tanpa ralat. Status surat bertukar secara tepat pada setiap peringkat hierarki dan jejak audit terperinci direkodkan dengan sempurna.</td>
+<td><span class="checkbox">▢</span> LULUS<br><span class="checkbox">▢</span> GAGAL</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. BORANG PERAKUAN &amp; KELULUSAN PENERIMAAN PENGGUNA (UAT SIGN-OFF)</h2>
+<h3>RUMUSAN KEPUTUSAN UJIAN</h3>
+<ul>
+<li><strong>Jumlah Kes Ujian</strong>: 38 Kes Ujian</li>
+<li><strong>Bilangan Kes Lulus</strong>: ______ Kes</li>
+<li><strong>Bilangan Kes Gagal</strong>: ______ Kes</li>
+<li><strong>Peratusan Lulus</strong>: ______ %</li>
+</ul>
+<h3>PERAKUAN WAKIL PENGUJI &amp; JAWATANKUASA</h3>
+<p>Dengan ini diperakui bahawa Sistem Tindakan Surat Masuk (STSM) Majlis Agama Islam Negeri Sembilan telah diuji secara komprehensif mengikut kes-kes ujian yang ditetapkan dalam dokumen ini.</p>
+<p>Sistem ini didapati:</p>
+<ul>
+<li><span class="checkbox">▢</span> <strong>DILULUSKAN TANPA SYARAT</strong> (Sedia untuk pelaksanaan <em>Go-Live</em>).</li>
+<li><span class="checkbox">▢</span> <strong>DILULUSKAN BERSYARAT</strong> (Tertakluk kepada penyelesaian isu-isu kecil yang disenaraikan dalam catatan).</li>
+<li><span class="checkbox">▢</span> <strong>TIDAK DILULUSKAN</strong> (Perlu penambahbaikan semula dan pengujian pusingan kedua).</li>
+</ul>
+<h4>TANDATANGAN PENGESAHAN:</h4>
+<table>
+<thead>
+<tr>
+<th>Disemak &amp; Disahkan Oleh:</th>
+<th>Diperaku &amp; Diluluskan Oleh:</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Nama</strong>: ____________________________________</td>
+<td><strong>Nama</strong>: ____________________________________</td>
+</tr>
+<tr>
+<td><strong>Jawatan</strong>: Ketua Penolong Pengarah, BTM MAINS</td>
+<td><strong>Jawatan</strong>: Setiausaha / Timbalan Setiausaha MAINS</td>
+</tr>
+<tr>
+<td><strong>Tarikh</strong>: _________________________________</td>
+<td><strong>Tarikh</strong>: _________________________________</td>
+</tr>
+<tr>
+<td><strong>Tandatangan</strong>:</td>
+<td><strong>Tandatangan</strong>:</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>____________________________________________</td>
+<td>____________________________________________</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Dokumen Tamat. Hak Cipta Terpelihara Majlis Agama Islam Negeri Sembilan (MAINS).</em></p>
+
+    </div>
+    <div class="footer-stamp">
+        <div>MAJLIS AGAMA ISLAM NEGERI SEMBILAN &copy; 2026</div>
+        <div>Dokumen Rasmi STSM &bull; Dicetak pada 21 November 2026</div>
+    </div>
+</body>
+</html>

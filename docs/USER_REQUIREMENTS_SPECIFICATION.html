@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <title>User Requirements Specification - STSM MAINS</title>
+    <style>
+        
+@page {
+    size: A4 portrait;
+    margin: 18mm 14mm 18mm 14mm;
+}
+
+@media print {
+    body {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+    .page-break {
+        page-break-before: always;
+    }
+    h2 {
+        page-break-before: auto;
+        page-break-after: avoid;
+    }
+    table, figure, pre {
+        page-break-inside: avoid;
+    }
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background: #ffffff;
+    line-height: 1.55;
+    font-size: 9.5pt;
+    margin: 0;
+    padding: 0;
+}
+
+.doc-header-banner {
+    border-bottom: 2px solid #0b3d5c;
+    padding-bottom: 12px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.doc-header-banner .agency {
+    font-size: 11pt;
+    font-weight: 700;
+    color: #0b3d5c;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+.doc-header-banner .system {
+    font-size: 8.5pt;
+    color: #64748b;
+    font-weight: 500;
+}
+
+h1 {
+    font-size: 18pt;
+    font-weight: 800;
+    color: #0b3d5c;
+    line-height: 1.25;
+    margin-top: 0;
+    margin-bottom: 8px;
+    letter-spacing: -0.3px;
+}
+
+h2 {
+    font-size: 13pt;
+    font-weight: 700;
+    color: #0b3d5c;
+    border-bottom: 1.5px solid #e2e8f0;
+    padding-bottom: 4px;
+    margin-top: 22px;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #334155;
+    margin-top: 16px;
+    margin-bottom: 6px;
+}
+
+h4 {
+    font-size: 10pt;
+    font-weight: 600;
+    color: #475569;
+    margin-top: 12px;
+    margin-bottom: 4px;
+}
+
+p {
+    margin-top: 0;
+    margin-bottom: 8px;
+    text-align: justify;
+}
+
+hr {
+    border: none;
+    border-top: 1px solid #cbd5e1;
+    margin: 18px 0;
+}
+
+ul, ol {
+    margin-top: 0;
+    margin-bottom: 8px;
+    padding-left: 22px;
+}
+
+li {
+    margin-bottom: 3px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 12px 0 16px 0;
+    font-size: 8pt;
+    line-height: 1.4;
+}
+
+th {
+    background-color: #0b3d5c;
+    color: #ffffff;
+    font-weight: 600;
+    text-align: left;
+    padding: 6px 8px;
+    border: 1px solid #0b3d5c;
+}
+
+td {
+    padding: 5px 8px;
+    border: 1px solid #cbd5e1;
+    vertical-align: top;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #f8fafc;
+}
+
+tbody tr:hover {
+    background-color: #f1f5f9;
+}
+
+code {
+    font-family: Consolas, 'Courier New', monospace;
+    font-size: 8.5pt;
+    background-color: #f1f5f9;
+    color: #0f172a;
+    padding: 1px 4px;
+    border-radius: 3px;
+    border: 1px solid #e2e8f0;
+}
+
+pre {
+    background-color: #0f172a;
+    color: #f8fafc;
+    padding: 10px 14px;
+    border-radius: 6px;
+    font-size: 8pt;
+    line-height: 1.45;
+    overflow-x: auto;
+    margin: 10px 0 14px 0;
+}
+
+pre code {
+    background: transparent;
+    color: inherit;
+    padding: 0;
+    border: none;
+    font-size: 8pt;
+}
+
+blockquote {
+    margin: 10px 0;
+    padding: 8px 14px;
+    background-color: #f0fdf4;
+    border-left: 4px solid #16a34a;
+    border-radius: 0 4px 4px 0;
+    color: #166534;
+    font-size: 8.5pt;
+}
+
+blockquote.note {
+    background-color: #eff6ff;
+    border-left-color: #2563eb;
+    color: #1e40af;
+}
+
+blockquote.warning {
+    background-color: #fffbeb;
+    border-left-color: #d97706;
+    color: #92400e;
+}
+
+img {
+    max-width: 96%;
+    height: auto;
+    display: block;
+    margin: 14px auto 4px auto;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+    page-break-inside: avoid;
+}
+
+p em {
+    color: #64748b;
+    font-size: 8pt;
+}
+
+.checkbox {
+    font-family: monospace;
+    font-weight: bold;
+    color: #475569;
+}
+
+.footer-stamp {
+    margin-top: 30px;
+    padding-top: 10px;
+    border-top: 1px solid #cbd5e1;
+    font-size: 7.5pt;
+    color: #64748b;
+    display: flex;
+    justify-content: space-between;
+}
+
+    </style>
+</head>
+<body>
+    <div class="doc-header-banner">
+        <div class="agency">Majlis Agama Islam Negeri Sembilan (MAINS)</div>
+        <div class="system">Sistem Tindakan Surat Masuk (STSM) &bull; Dokumentasi Rasmi</div>
+    </div>
+    <div class="content-body">
+        <h1>DOKUMEN SPESIFIKASI KEPERLUAN PENGGUNA SISTEM (USER REQUIREMENTS SPECIFICATION - URS)</h1>
+<h2>SISTEM TINDAKAN SURAT MASUK (STSM)</h2>
+<p><strong>MAJLIS AGAMA ISLAM NEGERI SEMBILAN (MAINS)</strong></p>
+<hr />
+<h3>MAKLUMAT DOKUMEN</h3>
+<ul>
+<li><strong>Nama Projek</strong>: Sistem Tindakan Surat Masuk (STSM) MAINS</li>
+<li><strong>Versi Dokumen</strong>: 1.0</li>
+<li><strong>Status</strong>: Lengkap / Diluluskan</li>
+<li><strong>Tarikh Dokumen</strong>: 21 November 2026</li>
+<li><strong>Agensi</strong>: Majlis Agama Islam Negeri Sembilan (MAINS)</li>
+<li><strong>Kategori</strong>: Dokumentasi Kejuruteraan Perisian &amp; Analisis Keperluan</li>
+</ul>
+<hr />
+<h2>1. PENGENALAN &amp; LATAR BELAKANG PROJEK</h2>
+<h3>1.1 Latar Belakang</h3>
+<p>Majlis Agama Islam Negeri Sembilan (MAINS) menerima sejumlah besar surat rasmi harian daripada agensi kerajaan, sektor swasta, institusi pendidikan, pertubuhan bukan kerajaan (NGO), dan orang awam. Pengurusan surat fizikal secara manual mendedahkan agensi kepada risiko kelewatan tindakan, kesukaran pengesanan lokasi fizikal surat, ketidakpatuhan Piagam Pelanggan/SLA (Service Level Agreement), dan ketiadaan jejak audit digital yang telus.</p>
+<p>Sistem Tindakan Surat Masuk (STSM) dibangunkan sebagai sistem pengurusan surat dan pergerakan minit digital hujung-ke-hujung (<em>end-to-end</em>) untuk merekod, mengagih, meminitkan arahan secara hierarki, memantau tindakan, dan merekod maklum balas rasmi MAINS secara masa-nyata (<em>real-time</em>).</p>
+<h3>1.2 Objektif Sistem</h3>
+<ol>
+<li><strong>Digitalisasi Pendaftaran Surat</strong>: Membolehkan pendaftaran surat masuk secara individu atau pukal beserta lampiran digital (PDF/Imej) dan pengecaman metadata secara automatik.</li>
+<li><strong>Pengagihan Minit Berhierarki</strong>: Menyeragamkan aliran arahan daripada Setiausaha MAINS turun kepada Timbalan Setiausaha (Operasi/Pengurusan), Pengarah Jabatan, Ketua Penolong Pengarah Bahagian, Ketua Unit, hingga ke Pegawai Cawangan/Daerah.</li>
+<li><strong>Pematuhan SLA 14 Hari</strong>: Memastikan setiap surat diambil tindakan dalam tempoh Piagam Pelanggan (14 hari bekerja/kalendar) dengan penunjuk visual amaran lewat dan pemberitahuan pintar.</li>
+<li><strong>Penyelarasan Fizikal &amp; Digital (Slip QR A5 &amp; Lembaran Minit A4)</strong>: Memudahkan pergerakan fail fizikal menggunakan Slip Pengesanan Berkod QR A5 dan Lembaran Minit Rasmi A4 yang boleh dicetak.</li>
+<li><strong>Ketelusan &amp; Jejak Audit (Audit Trail)</strong>: Merekodkan sejarah lengkap setiap tindakan, minit, semakan, dan status pegawai yang bertanggungjawab bagi tujuan tadbir urus dan integriti.</li>
+</ol>
+<hr />
+<h2>2. SKOP SISTEM &amp; PERSEKITARAN OPERASI</h2>
+<h3>2.1 Skop Pengguna &amp; Liputan Agensi</h3>
+<p>Sistem merangkumi seluruh hierarki pentadbiran MAINS:</p>
+<ul>
+<li><strong>Peringkat Pengurusan Tertinggi</strong>: Pejabat Setiausaha MAINS, Pejabat Timbalan Setiausaha Operasi (TSO), Pejabat Timbalan Setiausaha Pengurusan (TSP).</li>
+<li><strong>Peringkat Jabatan &amp; Bahagian</strong>:
+<ul>
+<li>Jabatan Zakat (Kutipan, Agihan).</li>
+<li>Jabatan Wakaf &amp; Mal (Wakaf, Mal, Kompleks As-Saadah, Balai Cerap).</li>
+<li>Jabatan Pentadbiran (Sumber Manusia, Kaunseling, Teknologi Maklumat, Pengurusan Projek).</li>
+<li>Jabatan Perbendaharaan (Perakaunan, Kewangan, Belanjawan, Perolehan).</li>
+<li>Unit-unit Khas (Unit Undang-Undang, Unit Audit Dalam, Unit Integriti, Komunikasi Korporat).</li>
+</ul>
+</li>
+<li><strong>Peringkat Cawangan &amp; Daerah</strong>: 11 Pejabat MAINS Daerah &amp; Cawangan (Seremban, Port Dickson, Rembau, Tampin, Kuala Pilah, Jelebu, Jempol, Nilai, Seremban 2, Senawang, Gemas).</li>
+</ul>
+<h3>2.2 Arkitektur Teknologi</h3>
+<ul>
+<li><strong>Antaramuka Pengguna (Frontend)</strong>: Next.js 14 App Router, React 18, TypeScript, Tailwind CSS, shadcn/ui, Framer Motion, Lucide Icons.</li>
+<li><strong>Pelayan Aplikasi (Backend API)</strong>: Node.js + Express.js RESTful API, Autentikasi JWT, Pengendalian Muat Naik Multer.</li>
+<li><strong>Pangkalan Data (Database)</strong>: Microsoft SQL Server (MSSQL 2019/2022 / Azure SQL) dengan sambungan terurus <code>mssql</code>.</li>
+<li><strong>Storan Objek Awan</strong>: Huawei Cloud / S3-compatible Object Storage Service (OBS) &amp; Sandaran Storan Tempatan (<code>uploads/</code>).</li>
+</ul>
+<hr />
+<h2>3. PROFIL PENGGUNA &amp; MATRIKS HAK AKSES (RBAC)</h2>
+<p>Sistem menetapkan 5 peranan utama berasaskan Role-Based Access Control (RBAC):</p>
+<table>
+<thead>
+<tr>
+<th>Kod Peranan</th>
+<th>Nama Peranan</th>
+<th>Penerangan Tanggungjawab Utama</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>pentadbir_sistem</code></td>
+<td>Pentadbir Sistem (Admin)</td>
+<td>Kawalan penuh sistem, pengurusan akaun pengguna, konfigurasi menu navigasi, konfigurasi RBAC, tetapan SLA agensi, dan penyelenggaraan pangkalan data.</td>
+</tr>
+<tr>
+<td><code>pengurusan</code></td>
+<td>Pengurusan Tertinggi (Setiausaha / TSO / TSP)</td>
+<td>Menerima surat terus daripada pendaftaran, menurunkan minit arahan dasar/tindakan kepada ketua jabatan/bahagian, memantau laporan analitik dan prestasi SLA agensi.</td>
+</tr>
+<tr>
+<td><code>ketua_unit</code></td>
+<td>Ketua Unit / Pegawai Bahagian / Pengarah</td>
+<td>Menerima minit arahan daripada pihak pengurusan, memperincikan arahan dan meminitkan ke peringkat bawahan (Pegawai Pelaksana/Cawangan), serta memperaku tindakan selesai.</td>
+</tr>
+<tr>
+<td><code>pegawai_pelaksana</code></td>
+<td>Pegawai Pelaksana / Pegawai Operasi Cawangan</td>
+<td>Melaksanakan arahan fizikal/teknikal, mengemas kini status tindakan (Sedang/Telah), memuat naik bukti dokumen/maklum balas, dan melengkapkan tandatangan digital.</td>
+</tr>
+<tr>
+<td><code>kerani</code></td>
+<td>Kerani Pendaftaran / Urusetia Pejabat</td>
+<td>Menerima surat fizikal/emel, mengimbas dokumen, mendaftar surat (individu/pukal), mencetak Slip Kod QR A5 dan Lembaran Minit A4, memautkan surat berkaitan.</td>
+</tr>
+</tbody>
+</table>
+<h3>Matriks Kebenaran Hak Akses (12 Modul Kuasa)</h3>
+<ol>
+<li><code>daftar_surat</code>: Mendaftar surat masuk individu.</li>
+<li><code>pukal_surat</code>: Mendaftar surat masuk secara kelompok (batch).</li>
+<li><code>minit_bawah</code>: Menurunkan minit arahan ke peringkat bawahan dalam hierarki.</li>
+<li><code>rekod_tindakan</code>: Merekod kemajuan tindakan (Sedang/Telah) dan maklum balas selesai.</li>
+<li><code>paut_surat</code>: Memautkan rujukan surat baharu kepada surat induk terdahulu.</li>
+<li><code>cetak_slip</code>: Menjana dan mencetak Slip Pengesanan QR bersaiz A5.</li>
+<li><code>cetak_minit</code>: Menjana dan mencetak Lembaran Minit Tindakan fizikal A4 / PDF.</li>
+<li><code>lihat_analisis</code>: Melihat papan pemuka statistik lanjutan dan kepatuhan SLA.</li>
+<li><code>urus_pengguna</code>: Menambah, mengemas kini profil, dan menyahaktifkan pengguna.</li>
+<li><code>urus_menu</code>: Mengawal selia keterlihatan menu navigasi mengikut peranan.</li>
+<li><code>urus_peranan</code>: Mengubah suai matriks kebenaran RBAC secara dinamik.</li>
+<li><code>tetapan_sistem</code>: Mengubah tempoh SLA rasmi, maklumat agensi, dan integrasi pelayan.</li>
+</ol>
+<hr />
+<h2>4. KEPERLUAN FUNGSIAN SISTEM (FUNCTIONAL REQUIREMENTS)</h2>
+<h3>MODUL 1: AUTENTIKASI &amp; KAWALAN KESELAMATAN (AUTH)</h3>
+<ul>
+<li><strong>FR-AUTH-01</strong>: Pengguna mesti memasukkan <em>username</em> dan <em>password</em> yang sah untuk log masuk ke dalam sistem.</li>
+<li><strong>FR-AUTH-02</strong>: Sistem mesti menyulitkan kata laluan pengguna menggunakan algoritma <em>hashing</em> bcrypt dengan salt minimum 10 pusingan.</li>
+<li><strong>FR-AUTH-03</strong>: Sistem mesti menjana JSON Web Token (JWT) yang mengandungi identiti pengguna, id nod organisasi, dan peranan bagi setiap sesi yang sah.</li>
+<li><strong>FR-AUTH-04</strong>: Sistem mesti membolehkan log keluar selamat dan menamatkan token sesi serta-merta pada pelayar.</li>
+<li><strong>FR-AUTH-05</strong>: Pengguna yang tidak aktif (<em>is_active = 0</em>) mesti dihalang daripada mengakses sistem.</li>
+</ul>
+<h3>MODUL 2: PENDAFTARAN SURAT MASUK (REGISTER)</h3>
+<ul>
+<li><strong>FR-REG-01 (Penomboran Automatik)</strong>: Sistem mesti menjana Nombor Daftar Masuk unik secara automatik mengikut format piawai MAINS: <code>MAINS/SU/{TAHUN}/{NO_SIRI_4_DIGIT}</code> (contoh: <code>MAINS/SU/2026/0001</code>).</li>
+<li><strong>FR-REG-02 (Pendaftaran Individu)</strong>: Sistem mesti menyediakan borang pendaftaran surat yang merangkumi medan mandatori:
+<ul>
+<li>Perkara / Subjek Surat</li>
+<li>Pengirim (Agensi / Syarikat / Individu)</li>
+<li>Nombor Rujukan Pengirim</li>
+<li>Tarikh Terima (Lalai: Tarikh Hari Ini)</li>
+<li>Tarikh Surat</li>
+<li>Kategori (Pentadbiran, Zakat, Wakaf, Kewangan, Aduan, Jemputan, ICT, Lain-lain)</li>
+<li>Tahap Keutamaan (Biasa, Segera, Sangat Segera)</li>
+<li>Catatan Tambahan (Pilihan)</li>
+</ul>
+</li>
+<li><strong>FR-REG-03 (Pengecaman Heuristik / AI Metadata)</strong>: Apabila fail lampiran dipilih, sistem mesti menganalisis nama fail dan corak teks untuk mengekstrak No Rujukan, Perkara, Pengirim, dan Kategori secara automatik bagi mempercepat proses input.</li>
+<li><strong>FR-REG-04 (Pendaftaran Pukal / Bulk Registration)</strong>: Sistem mesti menyokong pemilihan pelbagai fail serentak untuk pendaftaran beramai-ramai dalam bentuk grid jadual dengan tetapan pengirim dan kategori sepunya.</li>
+<li><strong>FR-REG-05 (Destinasi Lalai Surat Baharu)</strong>: Setiap surat baharu yang didaftarkan mesti dihantar secara automatik ke Peti Minit Pejabat Setiausaha MAINS (<code>su</code>) dengan status penerima <code>akan</code>.</li>
+</ul>
+<h3>MODUL 3: PENGURUSAN LAMPIRAN &amp; PAPARAN DOKUMEN (ATTACHMENT)</h3>
+<ul>
+<li><strong>FR-ATT-01</strong>: Sistem mesti membenarkan muat naik fail lampiran berformat <code>.pdf</code>, <code>.jpg</code>, <code>.jpeg</code>, <code>.png</code>, <code>.doc</code>, <code>.docx</code>, <code>.xls</code>, <code>.xlsx</code> dengan saiz maksimum 10MB setiap fail.</li>
+<li><strong>FR-ATT-02</strong>: Sistem mesti menyokong penyimpanan dwi-saluran: storan pelayan tempatan (<code>uploads/</code>) dan penyelarasan ke Storan Objek Awan (OBS).</li>
+<li><strong>FR-ATT-03 (Penonton Dokumen Terbina Dalam)</strong>: Sistem mesti menyediakan modal pelihat PDF dan imej interaktif terus dalam pelayar tanpa memerlukan muat turun perisian luar.</li>
+</ul>
+<h3>MODUL 4: PETI MINIT &amp; AGIHAN ARAHAN BERHIERARKI (MINITING)</h3>
+<ul>
+<li><strong>FR-MNT-01</strong>: Peti minit mesti memaparkan senarai surat mengikut 3 tab:
+<ul>
+<li><em>Perlu Tindakan</em>: Surat yang ditujukan kepada peranan semasa dan memerlukan tindakan.</li>
+<li><em>Diminitkan</em>: Surat yang telah diminitkan oleh pengguna kepada pegawai bawahan.</li>
+<li><em>Selesai</em>: Surat yang telah selesai diambil tindakan sepenuhnya.</li>
+</ul>
+</li>
+<li><strong>FR-MNT-02 (Penurunan Minit Mengikut Hierarki)</strong>: Pengguna hanya dibenarkan meminitkan surat kepada nod subordinat/bawahan yang sah dalam struktur organisasi MAINS (contoh: Setiausaha -&gt; TSO/TSP/Pengarah; Pengarah -&gt; Ketua Unit).</li>
+<li><strong>FR-MNT-03 (Quick Action Chips)</strong>: Sistem mesti menyediakan pilihan arahan pantas standard kerajaan, seperti:
+<ul>
+<li>&quot;Untuk tindakan segera&quot;</li>
+<li>&quot;Sila ambil tindakan sewajarnya&quot;</li>
+<li>&quot;Sila kaji &amp; kemukakan syor&quot;</li>
+<li>&quot;Untuk makluman &amp; tindakan&quot;</li>
+<li>&quot;Sila selaraskan &amp; laporkan kepada saya&quot;</li>
+<li>&quot;Sila sediakan draf jawapan&quot;</li>
+</ul>
+</li>
+<li><strong>FR-MNT-04</strong>: Apabila minit diturunkan, status penerima semasa bertukar kepada <code>diturunkan</code>, dan penerima baharu ditambah dengan status <code>akan</code>. Log tindakan audit mesti dijana secara automatik.</li>
+</ul>
+<h3>MODUL 5: PEREKODAN TINDAKAN &amp; MAKLUM BALAS (ACTION &amp; FEEDBACK)</h3>
+<ul>
+<li><strong>FR-ACT-01</strong>: Penerima aktif dibenarkan menukar status tindakan peribadi daripada <code>akan</code> kepada <code>sedang</code> (Sedang Diambil Tindakan) atau <code>telah</code> (Telah Diambil Tindakan).</li>
+<li><strong>FR-ACT-02</strong>: Apabila status ditanda sebagai <code>telah</code> (Selesai), medan Catatan Penyelesaian adalah WAJIB diisi.</li>
+<li><strong>FR-ACT-03 (Penutupan Keseluruhan Surat)</strong>: Status keseluruhan surat hanya bertukar kepada <code>telah</code> (Selesai Sepenuhnya) apabila SEMUA penerima aktif telah melengkapkan tindakan masing-masing. Tarikh selesai (<code>tarikh_selesai</code>) akan direkodkan.</li>
+<li><strong>FR-ACT-04 (Tandatangan Digital Maklum Balas)</strong>: Sistem mesti menyediakan modul tandatangan digital kanvas untuk pengesahan pegawai sebelum menghantar maklum balas penyelesaian rasmi.</li>
+</ul>
+<h3>MODUL 6: PENGESANAN SLA 14 HARI &amp; AMARAN LEWAT (SLA TRACKING)</h3>
+<ul>
+<li><strong>FR-SLA-01 (Kiraan Tarikh Sasaran)</strong>: Tarikh sasaran penyelesaian dikira secara automatik: <code>Tarikh Terima + 14 Hari Kalendar</code>.</li>
+<li><strong>FR-SLA-02 (Penunjuk Visual Status SLA)</strong>:
+<ul>
+<li>🟢 <strong>Dalam Tempoh / Telah Selesai</strong>: Tindakan selesai sebelum atau pada hari ke-14.</li>
+<li>🟡 <strong>Amaran Segera (Hampir Lewat)</strong>: Baki masa antara 0 hingga 3 hari sebelum tamat tempoh.</li>
+<li>🔴 <strong>Lewat (&gt;14 Hari)</strong>: Melebihi 14 hari dari tarikh terima dan belum diselesaikan sepenuhnya.</li>
+<li>🔵 <strong>Diminitkan</strong>: Status sedang berada di peringkat cawangan/unit bawahan.</li>
+</ul>
+</li>
+<li><strong>FR-SLA-03 (Pemberitahuan Peringatan)</strong>: Sistem mesti membolehkan penghantaran mesej notifikasi segera melalui saluran WhatsApp dan Emel terus kepada pegawai yang bertanggungjawab bagi surat yang menghampiri atau telah melebihi SLA.</li>
+</ul>
+<h3>MODUL 7: CETAKAN &amp; INTEGRASI DOKUMEN FIZIKAL (PRINT &amp; QR)</h3>
+<ul>
+<li><strong>FR-PRN-01 (Slip Pengesanan QR A5)</strong>: Sistem mesti berupaya menjana Slip Pengesanan Surat Masuk bersaiz format A5 Lanskap/Potret yang mengandungi:
+<ul>
+<li>Kod QR Beresolusi Tinggi (membawa pautan pengesanan langsung).</li>
+<li>Nombor Daftar Surat &amp; Nombor Rujukan Pengirim.</li>
+<li>Tarikh Terima, Tarikh Surat &amp; Had Masa SLA (14 Hari).</li>
+<li>Nama Pengirim &amp; Ringkasan Perkara.</li>
+<li>Ruangan Tanda Tangan &amp; Cap Penerimaan Fail.</li>
+</ul>
+</li>
+<li><strong>FR-PRN-02 (Lembaran Minit Tindakan A4)</strong>: Sistem mesti boleh menjana borang fizikal A4 format rasmi MAINS yang memaparkan jadual kronologi minit arahan lengkap berserta tandatangan penyerahan.</li>
+<li><strong>FR-PRN-03</strong>: Sistem mesti membolehkan eksport lembaran minit ke format PDF sedia cetak.</li>
+</ul>
+<h3>MODUL 8: PAUTAN SURAT BERKAITAN (LETTER LINKING)</h3>
+<ul>
+<li><strong>FR-LNK-01</strong>: Sistem mesti membenarkan carian dan pemautan mana-mana surat susulan/jawapan kepada surat induk sedia ada.</li>
+<li><strong>FR-LNK-02</strong>: Antaramuka mesti memaparkan lencana rujukan pautan silang (<em>cross-reference badge</em>) yang membolehkan pengguna beralih antara surat berkaitan dalam satu klik.</li>
+</ul>
+<h3>MODUL 9: STRUKTUR ORGANISASI &amp; DIREKTORI PEGAWAI (ORGANIZATION DIRECTORY)</h3>
+<ul>
+<li><strong>FR-ORG-01</strong>: Sistem mesti memaparkan carta salasilah hierarki penuh MAINS (Pejabat SU -&gt; TSO/TSP -&gt; Jabatan -&gt; Bahagian -&gt; Unit -&gt; Daerah &amp; Cawangan).</li>
+<li><strong>FR-ORG-02</strong>: Pengguna boleh melihat profil setiap nod termasuk nama jawatan, nama pemegang jawatan, status jawatan (Terisi/Kosong), nombor telefon, emel rasmi, dan pautan terus WhatsApp.</li>
+<li><strong>FR-ORG-03</strong>: Sistem membenarkan pentadbir mengemas kini maklumat hubungan pegawai secara terus dalam pangkalan data.</li>
+</ul>
+<h3>MODUL 10: ANALISIS &amp; LAPORAN PRESTASI (ANALYTICS)</h3>
+<ul>
+<li><strong>FR-RPT-01</strong>: Sistem mesti memaparkan kad statistik masa-nyata: Jumlah Surat Masuk, Dalam Tempoh SLA, Amaran Lewat (Baki &lt;= 3 hari), dan Terlewat (&gt; 14 hari).</li>
+<li><strong>FR-RPT-02</strong>: Menyediakan carta visual interaktif bagi:
+<ul>
+<li>Trend kemasukan surat (Harian, Mingguan, Bulanan, Tahunan).</li>
+<li>Taburan kategori surat (Zakat, Wakaf, Pentadbiran, dll.).</li>
+<li>Indeks Peratusan Pematuhan SLA mengikut Bahagian dan Daerah.</li>
+</ul>
+</li>
+<li><strong>FR-RPT-03</strong>: Menyokong penapisan laporan mengikut julat tarikh, jabatan, dan status tindakan.</li>
+</ul>
+<h3>MODUL 11: PENTADBIRAN SISTEM (ADMINISTRATION)</h3>
+<ul>
+<li><strong>FR-ADM-01 (Pengurusan Pengguna)</strong>: Pentadbir boleh mendaftar kakitangan baharu, menyunting maklumat profil, menetapkan peranan, mereset kata laluan, dan menukar status aktif/tidak aktif.</li>
+<li><strong>FR-ADM-02 (Pengurusan Menu Dinamik)</strong>: Pentadbir boleh menetapkan menu mana yang boleh dilihat oleh setiap peranan tanpa perlu mengubah kod atur cara.</li>
+<li><strong>FR-ADM-03 (Pengurusan Peranan RBAC)</strong>: Pentadbir boleh mengaktifkan atau mematikan mana-mana daripada 12 matriks kebenaran mengikut peranan.</li>
+<li><strong>FR-ADM-04 (Tetapan Sistem &amp; SLA)</strong>: Membolehkan pengubahan tempoh had masa SLA lalai (lalai: 14 hari), nama agensi, alamat pejabat, nombor telefon, nombor faks, dan emel rasmi.</li>
+<li><strong>FR-ADM-05 (Pemantauan Pelayan &amp; Sandaran)</strong>: Memaparkan status sambungan MSSQL, OBS Storage, dan butang sandaran data (<em>database export/backup</em>).</li>
+</ul>
+<hr />
+<h2>5. KEPERLUAN BUKAN FUNGSIAN (NON-FUNCTIONAL REQUIREMENTS)</h2>
+<h3>5.1 Prestasi (Performance)</h3>
+<ul>
+<li><strong>NFR-PERF-01</strong>: Masa tindak balas pemuatan papan pemuka utama tidak melebihi 2 saat pada rangkaian LAN/WAN pejabat.</li>
+<li><strong>NFR-PERF-02</strong>: Carian dan penapisan senarai surat mesti dilaksanakan secara responsif (&lt; 500ms) menggunakan indeks pangkalan data yang dioptimumkan.</li>
+</ul>
+<h3>5.2 Keselamatan (Security)</h3>
+<ul>
+<li><strong>NFR-SEC-01</strong>: Semua komunikasi data melalui protokol selamat HTTPS dan sokongan token JWT terenkripsi.</li>
+<li><strong>NFR-SEC-02</strong>: Perlindungan terhadap serangan SQL Injection menggunakan <em>parameterized queries</em> pada pelayan Express dan MSSQL.</li>
+<li><strong>NFR-SEC-03</strong>: Perlindungan terhadap Cross-Site Scripting (XSS) dan pematuhan Content-Security-Policy.</li>
+<li><strong>NFR-SEC-04</strong>: Muat naik fail dihadkan kepada jenis MIME dokumen yang sah dengan pemeriksaan saiz maksimum 10MB.</li>
+</ul>
+<h3>5.3 Kebolehpercayaan &amp; Ketersediaan (Reliability &amp; Availability)</h3>
+<ul>
+<li><strong>NFR-REL-01</strong>: Ketersediaan sistem disasarkan pada 99.5% waktu operasi pejabat waktu bekerja.</li>
+<li><strong>NFR-REL-02</strong>: Pangkalan data disandarkan secara berkala (harian dan mingguan) bagi mengelakkan kehilangan data.</li>
+</ul>
+<h3>5.4 Kebolehgunaan &amp; Reka Bentuk Antaramuka (Usability &amp; Accessibility)</h3>
+<ul>
+<li><strong>NFR-USE-01</strong>: Antaramuka moden yang mesra pengguna berasaskan garis panduan reka bentuk kerajaan dan menyokong Mod Cerah (Light Mode) serta Mod Gelap (Dark Mode).</li>
+<li><strong>NFR-USE-02</strong>: Susun atur responsif yang menyokong paparan komputer meja (<em>desktop</em>), komputer riba, dan tablet.</li>
+</ul>
+<h3>5.5 Pematuhan Tadbir Urus &amp; Audit (Compliance &amp; Audit Trail)</h3>
+<ul>
+<li><strong>NFR-AUD-01</strong>: Setiap penambahan surat, pengagihan minit, perubahan status, dan catatan tindakan mesti direkodkan dalam jadual <code>tindakan</code> atau <code>log_data</code> lengkap dengan cap masa (<code>created_at</code>) dan identiti pegawai (<code>user_id</code>).</li>
+</ul>
+
+    </div>
+    <div class="footer-stamp">
+        <div>MAJLIS AGAMA ISLAM NEGERI SEMBILAN &copy; 2026</div>
+        <div>Dokumen Rasmi STSM &bull; Dicetak pada 21 November 2026</div>
+    </div>
+</body>
+</html>
